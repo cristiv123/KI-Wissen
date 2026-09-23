@@ -288,7 +288,7 @@
   <p class="stack"><b>Spring Boot 4.1</b> · <b>Angular 21</b> · <b>PostgreSQL 17 + pgvector</b> · <b>Anthropic Claude</b> · <b>Google Gemini</b> · <b>Ollama / bge-m3</b> · <b>faster-whisper</b> · <b>Tesseract</b> · <b>Apache Tika</b> · <b>Telegram Bot API</b> · <b>IMAP / SMTP</b> · <b>Flyway</b> · <b>JWT</b></p>
 
   <figure class="hero-figure">
-    <img class="shot" src="shots/second-brain.png" width="2720" height="1700" alt="">
+    <img class="shot" data-shot="second-brain" width="2720" height="1700" alt="">
     <figcaption><b>Fig. 1</b><span data-t="fig.brain"></span></figcaption>
   </figure>
 </header>
@@ -323,24 +323,48 @@
   </div>
   <div class="gallery">
     <figure>
-      <img class="shot" src="shots/ai-usage.png" loading="lazy" alt="">
-      <figcaption><b>Fig. 2</b><span data-t="fig.usage"></span></figcaption>
+      <img class="shot" data-shot="emails" loading="lazy" alt="">
+      <figcaption><b>Fig. 2</b><span data-t="fig.emails"></span></figcaption>
     </figure>
     <figure>
-      <img class="shot" src="shots/account.png" loading="lazy" alt="">
-      <figcaption><b>Fig. 3</b><span data-t="fig.keys"></span></figcaption>
+      <img class="shot" data-shot="documents" loading="lazy" alt="">
+      <figcaption><b>Fig. 3</b><span data-t="fig.docs"></span></figcaption>
     </figure>
     <figure>
-      <img class="shot" src="shots/categories.png" loading="lazy" alt="">
-      <figcaption><b>Fig. 4</b><span data-t="fig.tables"></span></figcaption>
+      <img class="shot" data-shot="telegram" loading="lazy" alt="">
+      <figcaption><b>Fig. 4</b><span data-t="fig.telegram"></span></figcaption>
     </figure>
     <figure>
-      <img class="shot" src="shots/gantt.png" loading="lazy" alt="">
-      <figcaption><b>Fig. 5</b><span data-t="fig.plan"></span></figcaption>
+      <img class="shot" data-shot="reminders" loading="lazy" alt="">
+      <figcaption><b>Fig. 5</b><span data-t="fig.reminders"></span></figcaption>
     </figure>
     <figure>
-      <img class="shot" src="shots/languages.png" loading="lazy" alt="">
-      <figcaption><b>Fig. 6</b><span data-t="fig.langs"></span></figcaption>
+      <img class="shot" data-shot="find" loading="lazy" alt="">
+      <figcaption><b>Fig. 6</b><span data-t="fig.find"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" data-shot="voice" loading="lazy" alt="">
+      <figcaption><b>Fig. 7</b><span data-t="fig.voice"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" data-shot="categories" loading="lazy" alt="">
+      <figcaption><b>Fig. 8</b><span data-t="fig.tables"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" data-shot="gantt" loading="lazy" alt="">
+      <figcaption><b>Fig. 9</b><span data-t="fig.plan"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" data-shot="ai-usage" loading="lazy" alt="">
+      <figcaption><b>Fig. 10</b><span data-t="fig.usage"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" data-shot="account" loading="lazy" alt="">
+      <figcaption><b>Fig. 11</b><span data-t="fig.keys"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" data-shot="languages" loading="lazy" alt="">
+      <figcaption><b>Fig. 12</b><span data-t="fig.langs"></span></figcaption>
     </figure>
   </div>
 </section>
@@ -566,10 +590,16 @@ const I18N = {
     "cap.cost.l":"Jeder Aufruf abgerechnet",
     "cap.cost.t":"Eine Zeile pro Modellaufruf: der Prompt, die Antwort, vier Token-Zähler, der Preis auf sechs Dezimalstellen und wessen API-Schlüssel dafür bezahlt hat.",
     "cap.lang.l":"Fünf Sprachen, überall",
-    "cap.lang.t":"Oberfläche, Prompts und Suche arbeiten in fünf Sprachen. Eine deutsche Frage findet eine Antwort in einem rumänischen Dokument — das ist der eigentliche Grund für semantische statt lexikalische Suche.",
+    "cap.lang.t":"Die Oberfläche läuft in fünf Sprachen, und der Abruf überschreitet sie: eine auf Englisch gestellte Frage findet ihre Antwort in einem deutschen Dokument — genau dafür wird nach Bedeutung statt nach Wortlaut gesucht.",
 
     "s6.title":"Die Anwendung",
-    "s6.lead":"Aufnahmen aus dem laufenden System, an dem Tag entstanden, an dem diese Seite geschrieben wurde. Die Oberfläche steht hier auf Englisch; sie läuft in fünf Sprachen.",
+    "fig.emails":"Neun Spalten, jede sortier- und filterbar aus dem Kopf heraus, 216 Nachrichten seitenweise zu 25. Die Kategorie je Zeile hat ein Modell vergeben, das auch die angehängten Scans gelesen hat; abgedeckt sind Absender, Empfänger, Betreff und die KI-Zusammenfassung.",
+    "fig.docs":"Hochgeladene Dateien, E-Mail-Anhänge und an den Bot geschickte Dateien in einer Liste — drei Herkünfte, drei verschiedene Eigentümerregeln, aus drei getrennten Abfragen zusammengeführt. Die Spalte „Extrahierter Text\" ist das, was der Leser aus der Datei gemacht hat.",
+    "fig.telegram":"Der Gesprächsverlauf des Bots, neueste zuerst, mit denselben Filtern wie eine Tabelle, ohne eine zu sein. Ein Treffer der wörtlichen Suche springt hierher und markiert genau die Blase — was voraussetzt, dass zuerst deren Seite aufgeschlagen wird.",
+    "fig.reminders":"Per Sprachnachricht oder im Chat angelegte Erinnerungen. Zur fälligen Zeit geht eine Erinnerung über jeden Kanal hinaus, den der Empfänger hat, und wer dieser Empfänger ist, wurde lokal aus dem gesprochenen Namen aufgelöst — ohne jedes Modell.",
+    "fig.find":"Wörtliche Suche über elf Tabellen: was dort nicht buchstäblich steht, wird nicht gefunden, und genau das ist die Zusage. Sie existiert, weil das zweite Gehirn nicht ablehnen kann — ohne Ähnlichkeitsschwelle liefert es immer seine besten K zurück.",
+    "fig.voice":"Die Sprachseite, auf einem neuen Gespräch geöffnet. Erkennung und Sprachausgabe laufen beide im Browser; der Server sieht nie Audio, sondern nur Text — die Grenze, die es erlaubt, die Erkennung auszutauschen, ohne Schema, Dienst oder Oberfläche anzufassen.",
+    "s6.lead":"Aufnahmen aus dem laufenden System, am Tag der Erstellung dieser Seite entstanden, mit den echten Daten. Personenbezogene Inhalte sind mit deckenden Balken abgedeckt — nicht unscharf gemacht, denn eine schwache Unschärfe lässt sich rekonstruieren. Alles andere ist unverändert. Die Bilder wechseln mit der Sprache oben rechts.",
     "fig.brain":"Eine auf Englisch getippte Frage, beantwortet aus deutschen Unterrichtsmitschriften — auf Rumänisch. Darunter die beiden Passagen, die die Antwort zitiert, von zwölf abgerufenen, und der Preis genau dieser einen Antwort: 7 469 Token, $0.0158.",
     "fig.usage":"Jeder Modellaufruf ist eine Zeile. 669 Aufrufe, 1 554 093 Token, $3.2715 — aufgeschlüsselt nach Funktion, mit einem Restbudget, das aus den Zeilen selbst berechnet wird und nicht vom Anbieter stammt.",
     "fig.keys":"Der API-Schlüssel ist eine Spalte pro Benutzer, AES-GCM-verschlüsselt und nie an den Browser zurückgegeben: das Feld meldet, dass ein Schlüssel hinterlegt ist, und bleibt leer. Leer speichern heisst „den vorhandenen behalten“.",
@@ -666,10 +696,16 @@ const I18N = {
     "cap.cost.l":"Chaque appel comptabilisé",
     "cap.cost.t":"Une ligne par appel de modèle : l'invite, la réponse, quatre compteurs de jetons, le prix à six décimales, et la clé d'API qui a payé.",
     "cap.lang.l":"Cinq langues, partout",
-    "cap.lang.t":"L'interface, les invites et la recherche fonctionnent en cinq langues. Une question en français trouve sa réponse dans un document en allemand — c'est la raison même d'une recherche sémantique plutôt que lexicale.",
+    "cap.lang.t":"L'interface fonctionne en cinq langues, et la recherche les traverse : une question posée en anglais trouve sa réponse dans un document en allemand — c'est précisément à cela que sert une recherche par le sens plutôt que par le mot.",
 
     "s6.title":"L'application",
-    "s6.lead":"Captures du système en fonctionnement, prises le jour où cette page a été écrite. L'interface est ici en anglais ; elle fonctionne en cinq langues.",
+    "fig.emails":"Neuf colonnes, chacune triable et filtrable depuis son en-tête, 216 messages paginés par 25. La catégorie de chaque ligne a été attribuée par un modèle qui a aussi lu les scans joints ; sont couverts l'expéditeur, le destinataire, l'objet et le résumé produit par l'IA.",
+    "fig.docs":"Fichiers déposés, pièces jointes et fichiers envoyés au bot dans une seule liste — trois provenances, trois règles de propriété différentes, réunies à partir de trois requêtes distinctes. La colonne « Texte extrait » est ce que le lecteur a tiré du fichier.",
+    "fig.telegram":"L'historique du bot, le plus récent d'abord, portant les mêmes filtres qu'un tableau sans en être un. Un résultat de la recherche littérale saute jusqu'ici et cerne la bulle exacte — ce qui suppose d'avoir d'abord ouvert la page où elle se trouve.",
+    "fig.reminders":"Des rappels créés à la voix ou dans la conversation. À l'heure dite, un rappel part sur tous les canaux dont dispose le destinataire, et l'identité de ce destinataire a été résolue localement à partir du nom prononcé — sans aucun modèle.",
+    "fig.find":"Recherche littérale sur onze tables : ce qui n'y est pas écrit tel quel n'est pas trouvé, et c'est précisément l'engagement. Elle existe parce que le second cerveau ne sait pas décliner — sans seuil de similarité, il renvoie toujours ses K meilleurs.",
+    "fig.voice":"La page vocale, ouverte sur une conversation nouvelle. Reconnaissance et synthèse se font toutes deux dans le navigateur ; le serveur ne voit jamais d'audio, seulement du texte — la frontière qui permet de remplacer le moteur sans toucher au schéma, au service ni à l'interface.",
+    "s6.lead":"Captures du système en fonctionnement, prises le jour où cette page a été écrite, sur les données réelles. Les contenus personnels sont couverts de bandes opaques — non floutés, car un flou faible se reconstitue. Tout le reste est intact. Les images changent avec la langue, en haut à droite.",
     "fig.brain":"Une question tapée en anglais, répondue à partir de transcriptions de cours d'allemand — en roumain. Dessous, les deux passages que la réponse cite, sur douze retrouvés, et le prix de cette réponse précise : 7 469 jetons, $0.0158.",
     "fig.usage":"Chaque appel de modèle est une ligne. 669 appels, 1 554 093 jetons, $3.2715 — ventilés par fonctionnalité, avec un budget restant calculé à partir des lignes elles-mêmes et non fourni par le fournisseur.",
     "fig.keys":"La clé d'API est une colonne par utilisateur, chiffrée en AES-GCM et jamais renvoyée au navigateur : le champ indique qu'une clé est enregistrée et reste vide. Enregistrer à vide signifie « garder celle en place ».",
@@ -766,10 +802,16 @@ const I18N = {
     "cap.cost.l":"Ogni chiamata contabilizzata",
     "cap.cost.t":"Una riga per ogni chiamata al modello: il prompt, la risposta, quattro contatori di token, il prezzo a sei decimali e la chiave API che ha pagato.",
     "cap.lang.l":"Cinque lingue, ovunque",
-    "cap.lang.t":"Interfaccia, prompt e ricerca funzionano in cinque lingue. Una domanda in italiano trova la risposta dentro un documento in tedesco — che è poi la ragione stessa di una ricerca semantica anziché lessicale.",
+    "cap.lang.t":"L'interfaccia funziona in cinque lingue e il recupero le attraversa: una domanda posta in inglese trova la risposta dentro un documento in tedesco — ed è esattamente a questo che serve cercare per significato anziché per parola.",
 
     "s6.title":"L'applicazione",
-    "s6.lead":"Immagini del sistema in esercizio, scattate il giorno in cui questa pagina è stata scritta. L'interfaccia è qui in inglese; funziona in cinque lingue.",
+    "fig.emails":"Nove colonne, ciascuna ordinabile e filtrabile dalla propria intestazione, 216 messaggi impaginati a 25. La categoria di ogni riga è stata assegnata da un modello che ha letto anche le scansioni allegate; sono coperti mittente, destinatario, oggetto e il riassunto prodotto dall'IA.",
+    "fig.docs":"File caricati, allegati di posta e file inviati al bot in un unico elenco — tre provenienze, tre regole di proprietà diverse, unite a partire da tre query separate. La colonna «Testo estratto» è ciò che il lettore ha ricavato dal file.",
+    "fig.telegram":"Lo storico del bot, dal più recente, con gli stessi filtri di una tabella pur non essendolo. Un risultato della ricerca letterale salta fin qui e cerchia la bolla esatta — il che presuppone di aver prima aperto la pagina in cui si trova.",
+    "fig.reminders":"Promemoria creati a voce o in chat. All'ora dovuta il promemoria parte su ogni canale che il destinatario possiede, e chi sia quel destinatario è stato risolto localmente dal nome pronunciato — senza alcun modello.",
+    "fig.find":"Ricerca letterale su undici tabelle: ciò che non vi è scritto alla lettera non viene trovato, ed è esattamente questo l'impegno. Esiste perché il secondo cervello non sa declinare — senza una soglia di somiglianza restituisce sempre i suoi K migliori.",
+    "fig.voice":"La pagina vocale, aperta su una conversazione nuova. Riconoscimento e sintesi avvengono entrambi nel browser; il server non vede mai audio, solo testo — il confine che consente di sostituire il motore senza toccare schema, servizio o interfaccia.",
+    "s6.lead":"Immagini del sistema in esercizio, scattate il giorno in cui questa pagina è stata scritta, sui dati reali. I contenuti personali sono coperti da barre opache — non sfocati, perché una sfocatura debole si può ricostruire. Tutto il resto è intatto. Le immagini cambiano con la lingua, in alto a destra.",
     "fig.brain":"Una domanda scritta in inglese, con risposta tratta da trascrizioni di lezioni di tedesco — in rumeno. Sotto, i due passaggi che la risposta cita, su dodici recuperati, e il costo di quella singola risposta: 7 469 token, $0.0158.",
     "fig.usage":"Ogni chiamata al modello è una riga. 669 chiamate, 1 554 093 token, $3.2715 — suddivisi per funzione, con un budget residuo calcolato dalle righe stesse e non fornito dal provider.",
     "fig.keys":"La chiave API è una colonna per utente, cifrata in AES-GCM e mai restituita al browser: il campo dichiara che una chiave è memorizzata e resta vuoto. Salvare vuoto significa «tieni quella che c'è».",
@@ -866,10 +908,16 @@ const I18N = {
     "cap.cost.l":"Every call accounted for",
     "cap.cost.t":"One row per model call: the prompt, the response, four token counters, the price to six decimals, and whose API key paid for it.",
     "cap.lang.l":"Five languages, throughout",
-    "cap.lang.t":"Interface, prompts and retrieval all work in five languages. A question asked in English finds its answer inside a German document — which is the whole reason for searching by meaning rather than by word.",
+    "cap.lang.t":"The interface runs in five languages, and retrieval crosses them: a question asked in English finds its answer inside a German document — which is exactly what searching by meaning rather than by word is for.",
 
     "s6.title":"The application",
-    "s6.lead":"Captures of the running system, taken on the day this page was written. The interface is in English here; it runs in five languages.",
+    "fig.emails":"Nine columns, each sortable and filterable from its own head, 216 messages paged at 25. Each row’s category was assigned by a model that also read the scans attached to it; covered here are the sender, the recipient, the subject and the AI summary.",
+    "fig.docs":"Uploaded files, mail attachments and files sent to the bot in one list — three origins, three different ownership rules, merged from three separate queries. The \"Extracted text\" column is what the reader made of the file.",
+    "fig.telegram":"The bot’s history, newest first, carrying the same filters as a table without being one. A hit from the literal search jumps here and rings the exact bubble — which requires first turning to the page that bubble is on.",
+    "fig.reminders":"Reminders created by voice or in the chat. At its time a reminder goes out on every channel the recipient has, and who that recipient is was resolved locally from the spoken name — with no model involved.",
+    "fig.find":"Literal search across eleven tables: what is not written there verbatim is not found, and that is precisely the contract. It exists because the second brain cannot decline — with no similarity floor it always returns its top K.",
+    "fig.voice":"The voice page, opened on a new conversation. Recognition and speech both happen in the browser; the server never sees audio, only text — the boundary that lets the engine be replaced without touching the schema, the service or the UI.",
+    "s6.lead":"Captures of the running system, taken on the day this page was written, against the real data. Personal content is covered with solid bars — not blurred, because a weak blur can be reconstructed. Everything else is untouched. The images change with the language, top right.",
     "fig.brain":"A question typed in English, answered out of German lesson transcripts — in Romanian. Below it, the two passages the answer cites out of twelve retrieved, and the price of that one answer: 7,469 tokens, $0.0158.",
     "fig.usage":"Every model call is one row. 669 calls, 1,554,093 tokens, $3.2715 — broken down by feature, with a remaining budget computed from the rows themselves rather than reported by the provider.",
     "fig.keys":"The API key is a per-user column, AES-GCM encrypted and never sent back to the browser: the field states that a key is stored and stays blank. Saving it blank means “keep the one you have”.",
@@ -963,6 +1011,10 @@ function apply(lang){
   });
   document.querySelectorAll(".langs button").forEach(b=>{
     b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+  });
+  document.querySelectorAll("img[data-shot]").forEach(img=>{
+    const next = "shots/" + lang + "/" + img.dataset.shot + ".png";
+    if(img.getAttribute("src") !== next) img.setAttribute("src", next);
   });
   try{ localStorage.setItem(STORE_KEY, lang); }catch(e){}
 }
