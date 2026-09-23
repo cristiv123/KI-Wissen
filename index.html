@@ -137,6 +137,24 @@
   }
   .stack b{color:var(--ink-2); font-weight:500}
 
+  /* ---------- figures ---------- */
+  figure{margin:0}
+  .shot{
+    display:block; width:100%; height:auto;
+    border:1px solid var(--rule-strong); border-radius:4px; background:var(--surface);
+    box-shadow:0 1px 2px rgba(15,20,30,.05), 0 10px 30px rgba(15,20,30,.07);
+  }
+  figcaption{
+    margin-top:.9rem; display:grid; grid-template-columns:4.5rem minmax(0,1fr); gap:0 1rem;
+    font-size:.9rem; color:var(--ink-2); line-height:1.58; max-width:62ch;
+  }
+  figcaption b{
+    font-family:var(--f-mono); font-size:.7rem; font-weight:500; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); padding-top:.22rem;
+  }
+  .hero-figure{margin-top:clamp(2rem,4vw,2.75rem)}
+  .gallery{display:grid; gap:clamp(2.25rem,4.5vw,3.25rem)}
+
   /* ---------- sections ---------- */
   section{padding-block:clamp(2.75rem,6vw,4.75rem); border-top:1px solid var(--rule-strong)}
   .s-head{display:grid; grid-template-columns:6.5rem minmax(0,1fr); gap:0 2rem; margin-bottom:2.4rem}
@@ -227,7 +245,7 @@
   .sig b{color:var(--ink); font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:.76rem}
 
   @media (max-width:760px){
-    .s-head,.clause,.layer,.practice{grid-template-columns:minmax(0,1fr); gap:.55rem}
+    .s-head,.clause,.layer,.practice,figcaption{grid-template-columns:minmax(0,1fr); gap:.55rem}
     .s-num,.clause__i,.layer__l,.practice__i{padding-top:0}
     .facts .fact:not(:first-child){padding-left:0}
     .fact{padding-right:0}
@@ -268,6 +286,11 @@
   </dl>
 
   <p class="stack"><b>Spring Boot 4.1</b> · <b>Angular 21</b> · <b>PostgreSQL 17 + pgvector</b> · <b>Anthropic Claude</b> · <b>Google Gemini</b> · <b>Ollama / bge-m3</b> · <b>faster-whisper</b> · <b>Tesseract</b> · <b>Apache Tika</b> · <b>Telegram Bot API</b> · <b>IMAP / SMTP</b> · <b>Flyway</b> · <b>JWT</b></p>
+
+  <figure class="hero-figure">
+    <img class="shot" src="shots/second-brain.png" width="2720" height="1700" alt="">
+    <figcaption><b>Fig. 1</b><span data-t="fig.brain"></span></figcaption>
+  </figure>
 </header>
 
 <main>
@@ -294,13 +317,45 @@
   <div class="s-head">
     <div class="s-num">§ 02</div>
     <div>
+      <h2 data-t="s6.title"></h2>
+      <p class="lead" data-t="s6.lead"></p>
+    </div>
+  </div>
+  <div class="gallery">
+    <figure>
+      <img class="shot" src="shots/ai-usage.png" loading="lazy" alt="">
+      <figcaption><b>Fig. 2</b><span data-t="fig.usage"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="shots/account.png" loading="lazy" alt="">
+      <figcaption><b>Fig. 3</b><span data-t="fig.keys"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="shots/categories.png" loading="lazy" alt="">
+      <figcaption><b>Fig. 4</b><span data-t="fig.tables"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="shots/gantt.png" loading="lazy" alt="">
+      <figcaption><b>Fig. 5</b><span data-t="fig.plan"></span></figcaption>
+    </figure>
+    <figure>
+      <img class="shot" src="shots/languages.png" loading="lazy" alt="">
+      <figcaption><b>Fig. 6</b><span data-t="fig.langs"></span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="s-head">
+    <div class="s-num">§ 03</div>
+    <div>
       <h2 data-t="s2.title"></h2>
       <p class="lead" data-t="s2.lead"></p>
     </div>
   </div>
 
   <article class="clause">
-    <div class="clause__i">2.1</div>
+    <div class="clause__i">3.1</div>
     <div>
       <h3 data-t="c1.t"></h3>
       <p data-h="c1.b"></p>
@@ -309,7 +364,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.2</div>
+    <div class="clause__i">3.2</div>
     <div>
       <h3 data-t="c2.t"></h3>
       <p data-h="c2.b"></p>
@@ -318,7 +373,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.3</div>
+    <div class="clause__i">3.3</div>
     <div>
       <h3 data-t="c3.t"></h3>
       <p data-h="c3.b"></p>
@@ -327,7 +382,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.4</div>
+    <div class="clause__i">3.4</div>
     <div>
       <h3 data-t="c4.t"></h3>
       <p data-h="c4.b"></p>
@@ -335,7 +390,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.5</div>
+    <div class="clause__i">3.5</div>
     <div>
       <h3 data-t="c5.t"></h3>
       <p data-h="c5.b"></p>
@@ -344,7 +399,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.6</div>
+    <div class="clause__i">3.6</div>
     <div>
       <h3 data-t="c6.t"></h3>
       <p data-h="c6.b"></p>
@@ -353,7 +408,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.7</div>
+    <div class="clause__i">3.7</div>
     <div>
       <h3 data-t="c7.t"></h3>
       <p data-h="c7.b"></p>
@@ -361,7 +416,7 @@
   </article>
 
   <article class="clause">
-    <div class="clause__i">2.8</div>
+    <div class="clause__i">3.8</div>
     <div>
       <h3 data-t="c8.t"></h3>
       <p data-h="c8.b"></p>
@@ -371,7 +426,7 @@
 
 <section class="wrap">
   <div class="s-head">
-    <div class="s-num">§ 03</div>
+    <div class="s-num">§ 04</div>
     <div>
       <h2 data-t="s3.title"></h2>
       <p class="lead" data-t="s3.lead"></p>
@@ -401,7 +456,7 @@
 
 <section class="wrap">
   <div class="s-head">
-    <div class="s-num">§ 04</div>
+    <div class="s-num">§ 05</div>
     <div>
       <h2 data-t="s4.title"></h2>
       <p class="lead" data-t="s4.lead"></p>
@@ -461,17 +516,17 @@
 
 <section class="wrap">
   <div class="s-head">
-    <div class="s-num">§ 05</div>
+    <div class="s-num">§ 06</div>
     <div>
       <h2 data-t="s5.title"></h2>
       <p class="lead" data-t="s5.lead"></p>
     </div>
   </div>
   <div class="practices">
-    <article class="practice"><div class="practice__i">5.1</div><div><h3 data-t="p1.t"></h3><p data-h="p1.b"></p></div></article>
-    <article class="practice"><div class="practice__i">5.2</div><div><h3 data-t="p2.t"></h3><p data-h="p2.b"></p></div></article>
-    <article class="practice"><div class="practice__i">5.3</div><div><h3 data-t="p3.t"></h3><p data-h="p3.b"></p></div></article>
-    <article class="practice"><div class="practice__i">5.4</div><div><h3 data-t="p4.t"></h3><p data-h="p4.b"></p></div></article>
+    <article class="practice"><div class="practice__i">6.1</div><div><h3 data-t="p1.t"></h3><p data-h="p1.b"></p></div></article>
+    <article class="practice"><div class="practice__i">6.2</div><div><h3 data-t="p2.t"></h3><p data-h="p2.b"></p></div></article>
+    <article class="practice"><div class="practice__i">6.3</div><div><h3 data-t="p3.t"></h3><p data-h="p3.b"></p></div></article>
+    <article class="practice"><div class="practice__i">6.4</div><div><h3 data-t="p4.t"></h3><p data-h="p4.b"></p></div></article>
   </div>
 </section>
 
@@ -513,6 +568,14 @@ const I18N = {
     "cap.lang.l":"Fünf Sprachen, überall",
     "cap.lang.t":"Oberfläche, Prompts und Suche arbeiten in fünf Sprachen. Eine deutsche Frage findet eine Antwort in einem rumänischen Dokument — das ist der eigentliche Grund für semantische statt lexikalische Suche.",
 
+    "s6.title":"Die Anwendung",
+    "s6.lead":"Aufnahmen aus dem laufenden System, an dem Tag entstanden, an dem diese Seite geschrieben wurde. Die Oberfläche steht hier auf Englisch; sie läuft in fünf Sprachen.",
+    "fig.brain":"Eine auf Englisch getippte Frage, beantwortet aus deutschen Unterrichtsmitschriften — auf Rumänisch. Darunter die beiden Passagen, die die Antwort zitiert, von zwölf abgerufenen, und der Preis genau dieser einen Antwort: 7 469 Token, $0.0158.",
+    "fig.usage":"Jeder Modellaufruf ist eine Zeile. 669 Aufrufe, 1 554 093 Token, $3.2715 — aufgeschlüsselt nach Funktion, mit einem Restbudget, das aus den Zeilen selbst berechnet wird und nicht vom Anbieter stammt.",
+    "fig.keys":"Der API-Schlüssel ist eine Spalte pro Benutzer, AES-GCM-verschlüsselt und nie an den Browser zurückgegeben: das Feld meldet, dass ein Schlüssel hinterlegt ist, und bleibt leer. Leer speichern heisst „den vorhandenen behalten“.",
+    "fig.tables":"Jede Tabelle sortiert und filtert aus ihrem eigenen Kopf heraus und blättert in 25er-Schritten — alles im Browser abgeleitet, weil kein Listen-Endpunkt blättert und damit ohnehin schon alle Zeilen da sind.",
+    "fig.plan":"Der Plan einer Kategorie: Balken werden zum Verschieben gezogen, Pfeile zeigen Abhängigkeiten, und was auf eine Aufgabe wartet, wird mitgeschoben — aber nie nach vorn gezogen.",
+    "fig.langs":"Fünf Sprachen. Die Flaggen sind eingebettetes SVG, weil Windows überhaupt keine Flaggen-Glyphen mitliefert: ein Flaggen-Emoji erscheint dort als die zwei Buchstaben seines Ländercodes.",
     "s2.title":"KI-Engineering",
     "s2.lead":"Was an diesem Projekt eine Referenz wert ist, sind nicht die Funktionen, sondern die Entscheidungen darunter — jede gegen eine Messung getroffen und jede zusammen mit dieser Messung schriftlich festgehalten.",
 
@@ -605,6 +668,14 @@ const I18N = {
     "cap.lang.l":"Cinq langues, partout",
     "cap.lang.t":"L'interface, les invites et la recherche fonctionnent en cinq langues. Une question en français trouve sa réponse dans un document en allemand — c'est la raison même d'une recherche sémantique plutôt que lexicale.",
 
+    "s6.title":"L'application",
+    "s6.lead":"Captures du système en fonctionnement, prises le jour où cette page a été écrite. L'interface est ici en anglais ; elle fonctionne en cinq langues.",
+    "fig.brain":"Une question tapée en anglais, répondue à partir de transcriptions de cours d'allemand — en roumain. Dessous, les deux passages que la réponse cite, sur douze retrouvés, et le prix de cette réponse précise : 7 469 jetons, $0.0158.",
+    "fig.usage":"Chaque appel de modèle est une ligne. 669 appels, 1 554 093 jetons, $3.2715 — ventilés par fonctionnalité, avec un budget restant calculé à partir des lignes elles-mêmes et non fourni par le fournisseur.",
+    "fig.keys":"La clé d'API est une colonne par utilisateur, chiffrée en AES-GCM et jamais renvoyée au navigateur : le champ indique qu'une clé est enregistrée et reste vide. Enregistrer à vide signifie « garder celle en place ».",
+    "fig.tables":"Chaque tableau trie et filtre depuis son propre en-tête et pagine par 25 — le tout dérivé dans le navigateur, puisque aucun point d'accès ne pagine et que les lignes sont donc déjà toutes là.",
+    "fig.plan":"Le plan d'une catégorie : les barres se déplacent à la souris, les flèches portent les dépendances, et ce qui attend une tâche est poussé avec elle — mais jamais tiré vers l'avant.",
+    "fig.langs":"Cinq langues. Les drapeaux sont du SVG intégré, car Windows ne fournit aucun glyphe de drapeau : un émoji drapeau s'y affiche comme les deux lettres de son code pays.",
     "s2.title":"Ingénierie de l'IA",
     "s2.lead":"Ce qui, dans ce projet, vaut une référence, ce ne sont pas les fonctionnalités mais les décisions qui les portent — chacune prise contre une mesure, et chacune consignée avec la mesure qui l'a produite.",
 
@@ -697,6 +768,14 @@ const I18N = {
     "cap.lang.l":"Cinque lingue, ovunque",
     "cap.lang.t":"Interfaccia, prompt e ricerca funzionano in cinque lingue. Una domanda in italiano trova la risposta dentro un documento in tedesco — che è poi la ragione stessa di una ricerca semantica anziché lessicale.",
 
+    "s6.title":"L'applicazione",
+    "s6.lead":"Immagini del sistema in esercizio, scattate il giorno in cui questa pagina è stata scritta. L'interfaccia è qui in inglese; funziona in cinque lingue.",
+    "fig.brain":"Una domanda scritta in inglese, con risposta tratta da trascrizioni di lezioni di tedesco — in rumeno. Sotto, i due passaggi che la risposta cita, su dodici recuperati, e il costo di quella singola risposta: 7 469 token, $0.0158.",
+    "fig.usage":"Ogni chiamata al modello è una riga. 669 chiamate, 1 554 093 token, $3.2715 — suddivisi per funzione, con un budget residuo calcolato dalle righe stesse e non fornito dal provider.",
+    "fig.keys":"La chiave API è una colonna per utente, cifrata in AES-GCM e mai restituita al browser: il campo dichiara che una chiave è memorizzata e resta vuoto. Salvare vuoto significa «tieni quella che c'è».",
+    "fig.tables":"Ogni tabella ordina e filtra dalla propria intestazione e pagina a 25 righe — tutto derivato nel browser, perché nessun endpoint pagina e quindi le righe sono già tutte presenti.",
+    "fig.plan":"Il piano di una categoria: le barre si trascinano per riprogrammare, le frecce portano le dipendenze, e ciò che attende un'attività viene spinto con essa — ma mai tirato in avanti.",
+    "fig.langs":"Cinque lingue. Le bandiere sono SVG incorporato, perché Windows non fornisce alcun glifo di bandiera: lì un'emoji bandiera compare come le due lettere del suo codice paese.",
     "s2.title":"Ingegneria dell'IA",
     "s2.lead":"Ciò che in questo progetto vale una referenza non sono le funzionalità ma le decisioni che le reggono — ciascuna presa contro una misura, e ciascuna messa per iscritto insieme alla misura che l'ha prodotta.",
 
@@ -789,6 +868,14 @@ const I18N = {
     "cap.lang.l":"Five languages, throughout",
     "cap.lang.t":"Interface, prompts and retrieval all work in five languages. A question asked in English finds its answer inside a German document — which is the whole reason for searching by meaning rather than by word.",
 
+    "s6.title":"The application",
+    "s6.lead":"Captures of the running system, taken on the day this page was written. The interface is in English here; it runs in five languages.",
+    "fig.brain":"A question typed in English, answered out of German lesson transcripts — in Romanian. Below it, the two passages the answer cites out of twelve retrieved, and the price of that one answer: 7,469 tokens, $0.0158.",
+    "fig.usage":"Every model call is one row. 669 calls, 1,554,093 tokens, $3.2715 — broken down by feature, with a remaining budget computed from the rows themselves rather than reported by the provider.",
+    "fig.keys":"The API key is a per-user column, AES-GCM encrypted and never sent back to the browser: the field states that a key is stored and stays blank. Saving it blank means “keep the one you have”.",
+    "fig.tables":"Every table sorts and filters from its own head and pages at 25 rows — all of it derived in the browser, because no list endpoint pages and the rows are therefore already there.",
+    "fig.plan":"A category's plan: bars are dragged to reschedule, arrows carry the dependencies, and whatever waits on a task is pushed along with it — but never pulled earlier.",
+    "fig.langs":"Five languages. The flags are inline SVG, because Windows ships no flag glyphs at all: a flag emoji renders there as the two letters of its country code.",
     "s2.title":"AI engineering",
     "s2.lead":"What makes this worth citing is not the features but the decisions underneath them — each taken against a measurement, and each written down together with the measurement that produced it.",
 
