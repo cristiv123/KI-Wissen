@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KIA Home</title>
+<meta name="description" content="KIA Home — a self-hosted personal AI system: hybrid retrieval over PostgreSQL + pgvector, two model providers, local speech and OCR, and per-call cost accounting.">
+<meta property="og:title" content="KIA Home">
+<meta property="og:description" content="A self-hosted personal AI system: hybrid retrieval, two model providers, local speech and OCR, per-call cost accounting.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F5F6F9;
+    --surface:#FFFFFF;
+    --surface-2:#EFF1F6;
+    --ink:#14181F;
+    --ink-2:#464E5D;
+    --ink-3:#6A7382;
+    --rule:#DBDFE7;
+    --rule-strong:#C3C9D4;
+    --accent:#4338CA;
+    --accent-soft:#EDEEFC;
+    --signal:#0F6F66;
+    --signal-soft:#E4F2F0;
+
+    --f-display:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif;
+    --f-body:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+    --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --gut:clamp(1rem,4vw,3rem);
+    --maxw:72rem;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --paper:#0C0F15;
+      --surface:#131822;
+      --surface-2:#1A2029;
+      --ink:#E8ECF3;
+      --ink-2:#A7B0BF;
+      --ink-3:#838C9E;
+      --rule:#242B37;
+      --rule-strong:#333C4B;
+      --accent:#8E96FA;
+      --accent-soft:#1A1E39;
+      --signal:#4FCFBD;
+      --signal-soft:#11302D;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --paper:#0C0F15; --surface:#131822; --surface-2:#1A2029;
+    --ink:#E8ECF3; --ink-2:#A7B0BF; --ink-3:#838C9E;
+    --rule:#242B37; --rule-strong:#333C4B;
+    --accent:#8E96FA; --accent-soft:#1A1E39;
+    --signal:#4FCFBD; --signal-soft:#11302D;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--f-body); font-size:1rem; line-height:1.62;
+    font-feature-settings:"kern" 1;
+  }
+  img{max-width:100%}
+  a{color:var(--accent); text-underline-offset:.18em; text-decoration-thickness:.06em}
+  a:hover{text-decoration-thickness:.12em}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+  code{font-family:var(--f-mono); font-size:.88em; background:var(--surface-2); padding:.08em .32em; border-radius:3px}
+  em{font-style:italic}
+
+  .wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gut)}
+
+  /* ---------- top bar ---------- */
+  .bar{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:saturate(1.4) blur(10px);
+    border-bottom:1px solid var(--rule);
+    padding-block:.6rem;
+    padding-top:calc(.6rem + env(safe-area-inset-top,0px));
+  }
+  .bar__in{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap}
+  .mark{
+    font-family:var(--f-mono); font-weight:600; font-size:.78rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--ink);
+    display:flex; align-items:center; gap:.55rem;
+  }
+  .mark i{width:.5rem; height:.5rem; background:var(--accent); display:block; flex:none}
+  .langs{display:flex; gap:.15rem}
+  .langs button{
+    font-family:var(--f-mono); font-size:.72rem; font-weight:500; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--ink-3);
+    background:transparent; border:1px solid transparent; border-radius:3px;
+    padding:.34rem .5rem; cursor:pointer; line-height:1;
+  }
+  .langs button:hover{color:var(--ink)}
+  .langs button[aria-pressed="true"]{color:var(--accent); border-color:var(--rule-strong); background:var(--surface)}
+
+  /* ---------- hero ---------- */
+  .hero{padding-block:clamp(2.75rem,7vw,5.5rem) clamp(2rem,5vw,3.5rem)}
+  .eyebrow{
+    font-family:var(--f-mono); font-size:.72rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 1.4rem;
+  }
+  h1{
+    font-family:var(--f-display); font-weight:700;
+    font-size:clamp(3rem,11vw,6.5rem); line-height:.92; letter-spacing:-.02em;
+    margin:0 0 1.6rem; text-wrap:balance;
+  }
+  .deck{
+    font-size:clamp(1.06rem,2.1vw,1.3rem); line-height:1.55; color:var(--ink-2);
+    max-width:46ch; margin:0 0 2.6rem;
+  }
+  .deck strong{color:var(--ink); font-weight:600}
+
+  .facts{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));
+    gap:1px; background:var(--rule); border-block:1px solid var(--rule);
+  }
+  .fact{background:var(--paper); padding:.95rem 1rem .95rem 0}
+  .facts .fact:not(:first-child){padding-left:1rem}
+  .fact dt{
+    font-family:var(--f-mono); font-size:.66rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-3); margin:0 0 .35rem;
+  }
+  .fact dd{margin:0; font-family:var(--f-display); font-weight:600; font-size:1.02rem; line-height:1.3}
+
+  .stack{
+    margin-top:1.6rem; font-family:var(--f-mono); font-size:.76rem; line-height:2.1;
+    color:var(--ink-3); word-spacing:.1em;
+  }
+  .stack b{color:var(--ink-2); font-weight:500}
+
+  /* ---------- sections ---------- */
+  section{padding-block:clamp(2.75rem,6vw,4.75rem); border-top:1px solid var(--rule-strong)}
+  .s-head{display:grid; grid-template-columns:6.5rem minmax(0,1fr); gap:0 2rem; margin-bottom:2.4rem}
+  .s-num{
+    font-family:var(--f-mono); font-size:.72rem; letter-spacing:.12em; color:var(--accent);
+    padding-top:.45rem;
+  }
+  h2{
+    font-family:var(--f-display); font-weight:700; font-size:clamp(1.6rem,3.4vw,2.25rem);
+    line-height:1.12; letter-spacing:-.01em; margin:0 0 .85rem; text-wrap:balance;
+  }
+  .lead{margin:0; color:var(--ink-2); max-width:58ch; font-size:1.02rem}
+
+  /* capabilities */
+  .caps{display:grid; grid-template-columns:repeat(auto-fit,minmax(17rem,1fr)); gap:1px; background:var(--rule)}
+  .cap{background:var(--surface); padding:1.5rem 1.4rem}
+  .cap h3{
+    font-family:var(--f-mono); font-size:.72rem; font-weight:600; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 .7rem;
+  }
+  .cap p{margin:0; font-size:.95rem; color:var(--ink-2); line-height:1.6}
+
+  /* clauses */
+  .clause{
+    display:grid; grid-template-columns:6.5rem minmax(0,1fr); gap:0 2rem;
+    border-top:1px solid var(--rule); padding-block:1.9rem;
+  }
+  .clause:last-child{border-bottom:1px solid var(--rule)}
+  .clause__i{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.12em; color:var(--accent); padding-top:.4rem}
+  .clause h3{
+    font-family:var(--f-display); font-weight:600; font-size:1.18rem; line-height:1.28;
+    margin:0 0 .7rem; letter-spacing:-.005em;
+  }
+  .clause p{margin:0; color:var(--ink-2); max-width:64ch}
+  .measure{
+    margin-top:1rem !important; padding:.75rem .9rem;
+    border-left:2px solid var(--signal); background:var(--signal-soft);
+    font-family:var(--f-mono); font-size:.79rem; line-height:1.62; color:var(--ink-2);
+  }
+  .measure em{font-style:normal; color:var(--ink); font-weight:500}
+
+  /* ledger */
+  .ledger-wrap{overflow-x:auto}
+  table{border-collapse:collapse; width:100%; min-width:32rem}
+  th,td{text-align:left; padding:.85rem .6rem; border-bottom:1px solid var(--rule); vertical-align:baseline}
+  thead th{
+    font-family:var(--f-mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-3); font-weight:500; border-bottom-color:var(--rule-strong); padding-top:0;
+  }
+  td.k{font-family:var(--f-display); font-weight:600; font-size:1rem; white-space:nowrap}
+  td.v{
+    font-family:var(--f-mono); font-variant-numeric:tabular-nums; font-weight:500;
+    font-size:1.12rem; color:var(--accent); text-align:right; white-space:nowrap; width:1%;
+  }
+  td.n{color:var(--ink-2); font-size:.92rem}
+  tbody tr:last-child td{border-bottom:none}
+
+  /* diagram */
+  .layer{border-top:1px solid var(--rule); padding-block:1.35rem; display:grid; grid-template-columns:6.5rem minmax(0,1fr); gap:0 2rem}
+  .layer:last-of-type{border-bottom:1px solid var(--rule)}
+  .layer__l{font-family:var(--f-mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); padding-top:.5rem}
+  .nodes{display:flex; flex-wrap:wrap; gap:.5rem}
+  .node{
+    font-family:var(--f-mono); font-size:.79rem; color:var(--ink);
+    border:1px solid var(--rule-strong); background:var(--surface);
+    padding:.42rem .7rem; border-radius:3px;
+  }
+  .node.core{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+  .node.local{border-color:var(--signal); color:var(--signal); background:var(--signal-soft)}
+  .legend{margin-top:1.1rem; font-family:var(--f-mono); font-size:.72rem; color:var(--ink-3); display:flex; gap:1.4rem; flex-wrap:wrap}
+  .legend span{display:flex; align-items:center; gap:.45rem}
+  .swatch{width:.62rem; height:.62rem; border:1px solid var(--rule-strong); flex:none}
+  .swatch.local{border-color:var(--signal); background:var(--signal-soft)}
+  .swatch.paid{border-color:var(--rule-strong); background:var(--surface)}
+
+  /* practices */
+  .practices{display:grid; gap:1px; background:var(--rule); border-block:1px solid var(--rule)}
+  .practice{background:var(--paper); padding:1.35rem 0; display:grid; grid-template-columns:6.5rem minmax(0,1fr); gap:0 2rem}
+  .practice__i{font-family:var(--f-mono); font-size:.72rem; color:var(--accent); letter-spacing:.12em; padding-top:.3rem}
+  .practice h3{font-family:var(--f-display); font-weight:600; font-size:1.05rem; margin:0 0 .4rem}
+  .practice p{margin:0; color:var(--ink-2); font-size:.95rem; max-width:62ch}
+
+  /* footer */
+  footer{border-top:1px solid var(--rule-strong); padding-block:2.5rem 3.5rem; padding-bottom:calc(3.5rem + env(safe-area-inset-bottom,0px))}
+  .foot{display:flex; justify-content:space-between; gap:1.5rem; flex-wrap:wrap; align-items:flex-start}
+  .foot p{margin:0; color:var(--ink-3); font-size:.9rem; max-width:44ch}
+  .sig{font-family:var(--f-mono); font-size:.79rem; color:var(--ink-2); line-height:1.9}
+  .sig b{color:var(--ink); font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:.76rem}
+
+  @media (max-width:760px){
+    .s-head,.clause,.layer,.practice{grid-template-columns:minmax(0,1fr); gap:.55rem}
+    .s-num,.clause__i,.layer__l,.practice__i{padding-top:0}
+    .facts .fact:not(:first-child){padding-left:0}
+    .fact{padding-right:0}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
+  @media print{
+    .bar{display:none}
+    body{background:#fff; color:#000; font-size:10.5pt}
+    section{break-inside:auto}
+    .clause,.cap,.practice{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap bar__in">
+    <div class="mark"><i></i>KIA Home</div>
+    <div class="langs" role="group" aria-label="Sprache / Langue / Lingua / Language">
+      <button type="button" data-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      <button type="button" data-lang="it" aria-pressed="false">IT</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</div>
+
+<header class="wrap hero">
+  <p class="eyebrow" data-t="hero.eyebrow"></p>
+  <h1>KIA&nbsp;Home</h1>
+  <p class="deck" data-h="hero.deck"></p>
+
+  <dl class="facts">
+    <div class="fact"><dt data-t="fact.role.k"></dt><dd data-t="fact.role.v"></dd></div>
+    <div class="fact"><dt data-t="fact.period.k"></dt><dd data-t="fact.period.v"></dd></div>
+    <div class="fact"><dt data-t="fact.scale.k"></dt><dd data-t="fact.scale.v"></dd></div>
+    <div class="fact"><dt data-t="fact.state.k"></dt><dd data-t="fact.state.v"></dd></div>
+  </dl>
+
+  <p class="stack"><b>Spring Boot 4.1</b> · <b>Angular 21</b> · <b>PostgreSQL 17 + pgvector</b> · <b>Anthropic Claude</b> · <b>Google Gemini</b> · <b>Ollama / bge-m3</b> · <b>faster-whisper</b> · <b>Tesseract</b> · <b>Apache Tika</b> · <b>Telegram Bot API</b> · <b>IMAP / SMTP</b> · <b>Flyway</b> · <b>JWT</b></p>
+</header>
+
+<main>
+
+<section class="wrap">
+  <div class="s-head">
+    <div class="s-num">§ 01</div>
+    <div>
+      <h2 data-t="s1.title"></h2>
+      <p class="lead" data-t="s1.lead"></p>
+    </div>
+  </div>
+  <div class="caps">
+    <article class="cap"><h3 data-t="cap.brain.l"></h3><p data-t="cap.brain.t"></p></article>
+    <article class="cap"><h3 data-t="cap.mail.l"></h3><p data-t="cap.mail.t"></p></article>
+    <article class="cap"><h3 data-t="cap.bot.l"></h3><p data-t="cap.bot.t"></p></article>
+    <article class="cap"><h3 data-t="cap.read.l"></h3><p data-t="cap.read.t"></p></article>
+    <article class="cap"><h3 data-t="cap.cost.l"></h3><p data-t="cap.cost.t"></p></article>
+    <article class="cap"><h3 data-t="cap.lang.l"></h3><p data-t="cap.lang.t"></p></article>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="s-head">
+    <div class="s-num">§ 02</div>
+    <div>
+      <h2 data-t="s2.title"></h2>
+      <p class="lead" data-t="s2.lead"></p>
+    </div>
+  </div>
+
+  <article class="clause">
+    <div class="clause__i">2.1</div>
+    <div>
+      <h3 data-t="c1.t"></h3>
+      <p data-h="c1.b"></p>
+      <p class="measure" data-h="c1.m"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.2</div>
+    <div>
+      <h3 data-t="c2.t"></h3>
+      <p data-h="c2.b"></p>
+      <p class="measure" data-h="c2.m"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.3</div>
+    <div>
+      <h3 data-t="c3.t"></h3>
+      <p data-h="c3.b"></p>
+      <p class="measure" data-h="c3.m"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.4</div>
+    <div>
+      <h3 data-t="c4.t"></h3>
+      <p data-h="c4.b"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.5</div>
+    <div>
+      <h3 data-t="c5.t"></h3>
+      <p data-h="c5.b"></p>
+      <p class="measure" data-h="c5.m"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.6</div>
+    <div>
+      <h3 data-t="c6.t"></h3>
+      <p data-h="c6.b"></p>
+      <p class="measure" data-h="c6.m"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.7</div>
+    <div>
+      <h3 data-t="c7.t"></h3>
+      <p data-h="c7.b"></p>
+    </div>
+  </article>
+
+  <article class="clause">
+    <div class="clause__i">2.8</div>
+    <div>
+      <h3 data-t="c8.t"></h3>
+      <p data-h="c8.b"></p>
+    </div>
+  </article>
+</section>
+
+<section class="wrap">
+  <div class="s-head">
+    <div class="s-num">§ 03</div>
+    <div>
+      <h2 data-t="s3.title"></h2>
+      <p class="lead" data-t="s3.lead"></p>
+    </div>
+  </div>
+  <div class="ledger-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th data-t="tbl.item"></th>
+          <th style="text-align:right" data-t="tbl.value"></th>
+          <th data-t="tbl.note"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="k" data-t="m1.k"></td><td class="v">93 592</td><td class="n" data-t="m1.n"></td></tr>
+        <tr><td class="k" data-t="m2.k"></td><td class="v">1 417</td><td class="n" data-t="m2.n"></td></tr>
+        <tr><td class="k" data-t="m3.k"></td><td class="v">98</td><td class="n" data-t="m3.n"></td></tr>
+        <tr><td class="k" data-t="m4.k"></td><td class="v">48</td><td class="n" data-t="m4.n"></td></tr>
+        <tr><td class="k" data-t="m5.k"></td><td class="v">14</td><td class="n" data-t="m5.n"></td></tr>
+        <tr><td class="k" data-t="m6.k"></td><td class="v">5</td><td class="n" data-t="m6.n"></td></tr>
+        <tr><td class="k" data-t="m7.k"></td><td class="v">9 457</td><td class="n" data-t="m7.n"></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="s-head">
+    <div class="s-num">§ 04</div>
+    <div>
+      <h2 data-t="s4.title"></h2>
+      <p class="lead" data-t="s4.lead"></p>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer__l" data-t="arch.surfaces"></div>
+    <div class="nodes">
+      <span class="node" data-t="arch.web"></span>
+      <span class="node">Telegram Bot</span>
+      <span class="node" data-t="arch.voice"></span>
+      <span class="node">IMAP / SMTP</span>
+      <span class="node" data-t="arch.upload"></span>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer__l" data-t="arch.core"></div>
+    <div class="nodes">
+      <span class="node core" data-t="arch.core.node"></span>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer__l" data-t="arch.store"></div>
+    <div class="nodes">
+      <span class="node local">PostgreSQL 17 + pgvector</span>
+      <span class="node local">Flyway</span>
+      <span class="node local" data-t="arch.blob"></span>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer__l" data-t="arch.localmodels"></div>
+    <div class="nodes">
+      <span class="node local">Ollama · bge-m3</span>
+      <span class="node local">faster-whisper · large-v3-turbo</span>
+      <span class="node local">Tesseract · Tika</span>
+    </div>
+  </div>
+
+  <div class="layer">
+    <div class="layer__l" data-t="arch.paidmodels"></div>
+    <div class="nodes">
+      <span class="node">Claude Sonnet 5 · Haiku 4.5</span>
+      <span class="node">Gemini 3.6 Flash</span>
+      <span class="node" data-t="arch.websearch"></span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch local"></i><span data-t="arch.legend.local"></span></span>
+    <span><i class="swatch paid"></i><span data-t="arch.legend.paid"></span></span>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="s-head">
+    <div class="s-num">§ 05</div>
+    <div>
+      <h2 data-t="s5.title"></h2>
+      <p class="lead" data-t="s5.lead"></p>
+    </div>
+  </div>
+  <div class="practices">
+    <article class="practice"><div class="practice__i">5.1</div><div><h3 data-t="p1.t"></h3><p data-h="p1.b"></p></div></article>
+    <article class="practice"><div class="practice__i">5.2</div><div><h3 data-t="p2.t"></h3><p data-h="p2.b"></p></div></article>
+    <article class="practice"><div class="practice__i">5.3</div><div><h3 data-t="p3.t"></h3><p data-h="p3.b"></p></div></article>
+    <article class="practice"><div class="practice__i">5.4</div><div><h3 data-t="p4.t"></h3><p data-h="p4.b"></p></div></article>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <div class="foot">
+    <p data-t="foot.note"></p>
+    <div class="sig">
+      <b>Cristian Voinicaru</b><br>
+      <a href="https://github.com/cristiv123">github.com/cristiv123</a><br>
+      <span data-t="foot.updated"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const I18N = {
+  de: {
+    "hero.eyebrow":"Persönliches KI-System · allein entwickelt · täglich im Einsatz",
+    "hero.deck":"Ein selbst gehostetes zweites Gehirn. Es liest meine Post, meine Scans und meine Sprachnachrichten, legt alles unter der richtigen Kategorie ab und beantwortet Fragen über den gesamten Bestand — in fünf Sprachen, mit einem Budget, das es <strong>auf sechs Dezimalstellen genau abrechnet</strong>.",
+    "fact.role.k":"Rolle","fact.role.v":"Alleiniger Architekt und Entwickler",
+    "fact.period.k":"Zeitraum","fact.period.v":"Seit August 2026",
+    "fact.scale.k":"Umfang","fact.scale.v":"93 592 Zeilen, 1 417 Tests",
+    "fact.state.k":"Stand","fact.state.v":"Im täglichen Betrieb",
+
+    "s1.title":"Was es tut",
+    "s1.lead":"Fünf Oberflächen über einem einzigen Korpus: eine Web-Anwendung, ein Mail-Poller, ein Telegram-Bot, eine Sprachseite und eine Dokumentenablage. Alles, was über eine davon hereinkommt, wird semantisch durchsuchbar.",
+    "cap.brain.l":"Zweites Gehirn",
+    "cap.brain.t":"Dokumente, E-Mails, Anhänge, Gespräche und Erinnerungen werden segmentiert, eingebettet und nach Bedeutung abgerufen. Jede Antwort kommt mit den Passagen, aus denen sie gebaut wurde — sie ist damit überprüfbar statt bloss plausibel.",
+    "cap.mail.l":"Post, die sich selbst ablegt",
+    "cap.mail.t":"Mehrere IMAP-Postfächer werden abgefragt, zusammengefasst und von einem Modell kategorisiert, das auch die angehängten Scans liest. Eine Antwort entsteht aus einem Satz Anweisung und geht erst ab, nachdem ein Mensch sie gelesen hat.",
+    "cap.bot.l":"Ein Agent im Chat",
+    "cap.bot.t":"In Telegram: den Korpus befragen, einem Kontakt eine Nachricht diktieren, eine Erinnerung planen oder eine E-Mail beantworten, indem man auf deren Benachrichtigung antwortet. Sprachnachrichten werden auf dem Gerät selbst transkribiert.",
+    "cap.read.l":"Lesen, was ein Bild sagt",
+    "cap.read.t":"Scans und Fotos liest automatisch Tesseract, auf Wunsch Claudes Vision-Modell. Der Leser, der Geld kostet, ist nie derjenige, der von allein läuft.",
+    "cap.cost.l":"Jeder Aufruf abgerechnet",
+    "cap.cost.t":"Eine Zeile pro Modellaufruf: der Prompt, die Antwort, vier Token-Zähler, der Preis auf sechs Dezimalstellen und wessen API-Schlüssel dafür bezahlt hat.",
+    "cap.lang.l":"Fünf Sprachen, überall",
+    "cap.lang.t":"Oberfläche, Prompts und Suche arbeiten in fünf Sprachen. Eine deutsche Frage findet eine Antwort in einem rumänischen Dokument — das ist der eigentliche Grund für semantische statt lexikalische Suche.",
+
+    "s2.title":"KI-Engineering",
+    "s2.lead":"Was an diesem Projekt eine Referenz wert ist, sind nicht die Funktionen, sondern die Entscheidungen darunter — jede gegen eine Messung getroffen und jede zusammen mit dieser Messung schriftlich festgehalten.",
+
+    "c1.t":"Hybride Suche, nach Rang fusioniert",
+    "c1.b":"Eine Vektorsuche findet ein seltenes Token nicht: ein kurzes, ungewöhnliches Wort bettet sich auf einen generischen Punkt ein, und die Passagen, die es enthalten, tauchen nie auf. Ein PostgreSQL-<code>tsvector</code>-Index beantwortet die wörtliche Hälfte, und beide Ranglisten werden per Reciprocal Rank Fusion zusammengeführt — 1/(k+Position), k=60 — weil eine Kosinus-Ähnlichkeit und ein <code>ts_rank</code> nicht auf derselben Skala liegen und keine Normierung sie dorthin bringt. Wörtlich gesucht werden nur seltene Begriffe: der Korpus wird nach der Dokumentfrequenz jedes Frageworts gefragt, und alles über 20 % fällt weg — das braucht in keiner der fünf Sprachen eine Stoppwortliste.",
+    "c1.m":"Gemessen: die Partikel <em>zumal</em> — allein per Vektor bei keinem K gefunden; fusioniert fünf Passagen auf den Rängen 1, 3, 5, 7 und 10.",
+
+    "c2.t":"Ein Segment darf nicht länger sein, als eine Antwort tragen kann",
+    "c2.b":"Die Segmentierung war in Wörtern begrenzt, das Antwortbudget in Zeichen. Das ist dieselbe Entscheidung in zwei Einheiten, und Text rechnet sich nicht zu einem festen Kurs zwischen ihnen um — eine Tracking-URL ist ein einziges „Wort“ von zweihundert Zeichen. Also wurde das Ende jeder langen Passage auf dem Weg zum Modell abgeschnitten, und nichts meldete es: der Abruf war korrekt, die Quellenangabe echt, und die Antwort sagte, das Dokument enthalte nicht, was offensichtlich darin stand.",
+    "c2.m":"Gemessen: 217 von 233 Anhang-Segmenten über dem Budget, im Schnitt 2 752 Zeichen gegen 1 200. Das gesuchte Flugdatum stand an Zeichen 1 395 seines Segments.",
+
+    "c3.t":"Die Sichtbarkeit steckt in der Abfrage, nie dahinter",
+    "c3.b":"Einem Modell dürfen nur Passagen gezeigt werden, die der Fragende lesen darf — und dieses Prädikat gehört in die rankende Abfrage selbst: auf das Ergebnis angewandt lieferte es stillschweigend zwei Passagen zurück, wo zwölf angefordert waren. Es scheitert geschlossen, und zwar durch seine Form statt durch eine aufgesetzte Regel: das Prädikat ist eine Disjunktion über den Quelltyp, sodass eine Quelle, für die niemand eine Klausel geschrieben hat, unerreichbar ist statt öffentlich.",
+    "c3.m":"Gegen die laufende Datenbank geprüft, nicht nur gegen Mocks, die das SQL nie ausführen: 26 Segmente für einen Administrator, 4 für einen einfachen Benutzer — und eine Stichwortsuche nach einem Begriff, der nur in fremder Post vorkommt, liefert davon nichts.",
+
+    "c4.t":"Zwei Anbieter, je genau eine Aufrufstelle",
+    "c4.b":"Claude schreibt und argumentiert, Gemini liest und klassifiziert. Genau eine Klasse pro Anbieter spricht mit der API — das ist es, was „jeder Aufruf wird erfasst“ wahr macht statt bloss beabsichtigt. Der Schlüssel ist eine pro Benutzer AES-GCM-verschlüsselte Spalte und keine prozessweite Property, und er wandert als Parameter durch die Signatur: so fragt der Compiler jede Aufrufstelle, wessen Budget sie gerade ausgibt. Einen Default gibt es bewusst nicht.",
+
+    "c5.t":"Lokal zuerst, bezahlt nur auf Anforderung",
+    "c5.b":"Spracherkennung läuft mit faster-whisper (large-v3-turbo, int8, CPU), die Einbettungen mit bge-m3 über Ollama, die Texterkennung mit Tesseract über Apache Tika. Nichts davon verlässt die Maschine und nichts davon kostet etwas. Claudes Vision-Leser ist bei einem Raster oder einer Bordkarte deutlich besser — und er läuft nur auf Knopfdruck, weil Post in Schüben eintrifft und eine Korrektur ihr eigenes Ereignis erneut auslöst.",
+    "c5.m":"Gemessen: Whisper zahlt pro 30-Sekunden-Fenster, eine 5-Sekunden-Notiz kostet also so viel wie eine von 26 Sekunden — daraus folgt die Fünf-Minuten-Grenze für Sprachnachrichten, die der Bot annimmt.",
+
+    "c6.t":"Prompts, die an Messungen korrigiert werden, nicht an Geschmack",
+    "c6.b":"Beim Transkribieren schweizerdeutscher Raumnamen gab der Vision-Leser <em>zwölf</em> und <em>nüdün</em> für <em>zwöli</em> und <em>nüüün</em> zurück: korrektes Deutsch, falsche Wörter, und nichts in der Ausgabe gab es zu. Ein erfundenes, aber schreibbares Wort ist schlimmer als ein sichtbar kaputtes, weil eine wörtliche Suche keines von beiden trifft und nur das kaputte sich zu erkennen gibt. Neu formuliert — eine „korrigierte“ Stelle ist der schwerere Fehler, weil niemand weiter unten merken kann, dass geändert wurde — kam die Lesung richtig zurück.",
+    "c6.m":"Zweiter Fall: eine Regel gegen das Zitieren von Passagen, nur um sie zu verwerfen, hielt überall ausser bei Fragen nach vollständiger Abdeckung — dort zitierte das Modell 12 von 12. Diese Formulierungen ausdrücklich zu benennen brachte es über drei Läufe auf 3–4 von 12.",
+
+    "c7.t":"Werkzeugnutzung, und wie die Antwort wirklich aussieht",
+    "c7.b":"Beide Modelle antworten mit Websuche, wenn man sie beim Namen anspricht. Eine Antwort, die ein Werkzeug benutzt hat, ist kein einzelner Textblock: der erste ist das Modell, das ankündigt, etwas nachzuschlagen — die eigentliche Antwort ist der Text nach dem letzten Werkzeugblock, zusammengefügt, weil eine belegte Antwort mit Quellenangaben über mehrere Blöcke verteilt ist. Ein pausierter Zug muss unverändert zurückgeschickt werden, samt dem verschlüsselten Inhalt jedes Treffers, sonst wird die nächste Anfrage abgelehnt. Und eine fehlgeschlagene Suche kommt als HTTP 200 an, dessen Inhalt ein Fehlerobjekt ist.",
+
+    "c8.t":"Kosten sind eine eigene Spalte",
+    "c8.b":"Eine Websuche wird pro Anfrage abgerechnet und nicht pro Token, also führt das Kostenbuch eine dritte Spalte, statt den Betrag in die Ausgabekosten zu falten, wo diese Spalte etwas berichten würde, was sie nicht ist. Preise sind Konfiguration: ein Aktionstarif, der später zurückgesetzt wird, darf kein Literal im Code sein. Ein Modell, das in der Preisliste fehlt, wird mit Kosten null und einer Warnung protokolliert — eine sichtbar fehlende Zahl schickt jemanden in die Konfigurationsdatei, eine plausible, vom nächstbesten Modell erfundene tut das nicht.",
+
+    "s3.title":"Gemessen, nicht behauptet",
+    "s3.lead":"Am Tag der Erstellung dieser Seite im Repository ausgezählt.",
+    "tbl.item":"Position","tbl.value":"Wert","tbl.note":"Anmerkung",
+    "m1.k":"Codezeilen","m1.n":"Java, TypeScript, SQL, SCSS, Python",
+    "m2.k":"Automatisierte Tests","m2.n":"1 064 Backend-Testmethoden, 353 Frontend-Specs",
+    "m3.k":"Services","m3.n":"dazu 18 REST-Controller und 51 Entitäten",
+    "m4.k":"Datenbank-Migrationen","m4.n":"Flyway; das Schema wird nie vom ORM verändert",
+    "m5.k":"KI-Operationen","m5.n":"jede einzeln bepreist und gezählt",
+    "m6.k":"Oberflächensprachen","m6.n":"je 1 138 Schlüssel, Parität durch einen Test erzwungen",
+    "m7.k":"Entscheidungsprotokoll","m7.n":"Zeilen dokumentierter Begründung, Messungen inbegriffen",
+
+    "s4.title":"Architektur",
+    "s4.lead":"Ein Spring-Boot-Kern, eine Datenbank, die zugleich Vektorspeicher ist, drei lokale Modelle und zwei bezahlte Anbieter. Was lokal laufen kann, läuft lokal.",
+    "arch.surfaces":"Oberflächen","arch.core":"Kern","arch.store":"Speicher",
+    "arch.localmodels":"Lokale Modelle","arch.paidmodels":"Bezahlte Modelle",
+    "arch.web":"Web (Angular 21)","arch.voice":"Sprache (Web Speech)","arch.upload":"Dokumenten-Upload",
+    "arch.core.node":"Spring Boot 4.1 — 98 Services, JWT, zeilenweise Sichtbarkeitsregeln",
+    "arch.blob":"Dateiablage in der Datenbank",
+    "arch.websearch":"Websuche als Werkzeug",
+    "arch.legend.local":"lokal, kostenlos, verlässt die Maschine nicht",
+    "arch.legend.paid":"extern, pro Aufruf abgerechnet",
+
+    "s5.title":"Wie es gebaut ist",
+    "s5.lead":"Vier Regeln, die sich in diesem Projekt bewährt haben, weil jede einmal teuer war.",
+    "p1.t":"Das Schema gehört den Migrationen",
+    "p1.b":"<code>ddl-auto=validate</code>: eine Abweichung zwischen Entität und migriertem Schema lässt den Start fehlschlagen, statt still eine Tabelle zu ändern. 48 Migrationen, von denen keine je nachträglich bearbeitet wird — Flyway prüft ihre Checksumme.",
+    "p2.t":"Gegen die Datenbank geprüft, nicht nur gegen Mocks",
+    "p2.b":"Die Testsuite mockt das Repository und kann deshalb einen Fehler in einer handgeschriebenen Abfrage nicht finden. Die Regeln, auf die es ankommt, werden gegen das laufende Schema ausgeführt und die Trefferzahlen pro Konto verglichen.",
+    "p3.t":"Eine Regel, dort wiederholt, wo sie beantwortet werden muss",
+    "p3.b":"Dieselbe Sichtbarkeitsregel existiert in SQL, in JPQL und in Java — jede beantwortet dieselbe Frage an einer anderen Stelle — mit der stehenden Vereinbarung, dass ein Unterschied zwischen den Kopien ein Fehler in einer von ihnen ist und keine Nuance.",
+    "p4.t":"Begründungen werden aufgeschrieben, Umkehrungen eingeschlossen",
+    "p4.b":"9 457 Zeilen Entscheidungsprotokoll: was gemessen wurde, was gewählt wurde — und welche Entscheidungen später umgekehrt wurden, weil die Einschränkung, die sie rechtfertigte, nicht mehr galt.",
+
+    "foot.note":"Der Quellcode liegt in einem privaten Repository. Eine Durchsprache des Systems — Architektur, Retrieval-Pipeline, Kostenrechnung — jederzeit auf Anfrage.",
+    "foot.updated":"Stand: September 2026"
+  },
+
+  fr: {
+    "hero.eyebrow":"Système d'IA personnel · développé seul · en usage quotidien",
+    "hero.deck":"Un second cerveau auto-hébergé. Il lit mon courrier, mes scans et mes notes vocales, classe le tout sous la bonne catégorie et répond à des questions portant sur l'ensemble — en cinq langues, avec un budget dont il rend compte <strong>à la sixième décimale</strong>.",
+    "fact.role.k":"Rôle","fact.role.v":"Seul architecte et développeur",
+    "fact.period.k":"Période","fact.period.v":"Depuis août 2026",
+    "fact.scale.k":"Ampleur","fact.scale.v":"93 592 lignes, 1 417 tests",
+    "fact.state.k":"État","fact.state.v":"En exploitation quotidienne",
+
+    "s1.title":"Ce qu'il fait",
+    "s1.lead":"Cinq surfaces au-dessus d'un seul corpus : une application web, un relevé de messagerie, un bot Telegram, une page vocale et un dépôt de documents. Tout ce qui arrive par l'une d'elles devient interrogeable par le sens.",
+    "cap.brain.l":"Second cerveau",
+    "cap.brain.t":"Documents, courriels, pièces jointes, conversations et rappels sont découpés, vectorisés et retrouvés par le sens. Chaque réponse arrive accompagnée des passages qui l'ont produite : elle est vérifiable, et pas seulement plausible.",
+    "cap.mail.l":"Du courrier qui se classe seul",
+    "cap.mail.t":"Plusieurs boîtes IMAP sont relevées, résumées et classées par un modèle qui lit aussi les scans joints. Une réponse se rédige à partir d'une phrase d'instruction et ne part qu'après relecture humaine.",
+    "cap.bot.l":"Un agent dans la conversation",
+    "cap.bot.t":"Dans Telegram : interroger le corpus, dicter un message à un contact, programmer un rappel, ou répondre à un courriel en répondant à sa notification. Les notes vocales sont transcrites sur la machine elle-même.",
+    "cap.read.l":"Lire ce que dit une image",
+    "cap.read.t":"Les scans et les photos sont lus automatiquement par Tesseract, ou par la vision de Claude à la demande. Le lecteur qui coûte de l'argent n'est jamais celui qui s'exécute tout seul.",
+    "cap.cost.l":"Chaque appel comptabilisé",
+    "cap.cost.t":"Une ligne par appel de modèle : l'invite, la réponse, quatre compteurs de jetons, le prix à six décimales, et la clé d'API qui a payé.",
+    "cap.lang.l":"Cinq langues, partout",
+    "cap.lang.t":"L'interface, les invites et la recherche fonctionnent en cinq langues. Une question en français trouve sa réponse dans un document en allemand — c'est la raison même d'une recherche sémantique plutôt que lexicale.",
+
+    "s2.title":"Ingénierie de l'IA",
+    "s2.lead":"Ce qui, dans ce projet, vaut une référence, ce ne sont pas les fonctionnalités mais les décisions qui les portent — chacune prise contre une mesure, et chacune consignée avec la mesure qui l'a produite.",
+
+    "c1.t":"Recherche hybride, fusionnée par rang",
+    "c1.b":"Une recherche vectorielle ne trouve pas un terme rare : un mot court et peu fréquent se vectorise vers un point générique, et les passages qui le contiennent ne remontent jamais. Un index <code>tsvector</code> de PostgreSQL répond à la moitié littérale, et les deux classements sont fusionnés par <em>reciprocal rank fusion</em> — 1/(k+position), k=60 — parce qu'une similarité cosinus et un <code>ts_rank</code> ne sont pas sur la même échelle et qu'aucune normalisation ne les y met. Seuls les termes rares sont cherchés littéralement : on demande au corpus la fréquence documentaire de chaque mot de la question et tout ce qui dépasse 20 % est écarté — ce qui ne réclame de liste de mots vides dans aucune des cinq langues.",
+    "c1.m":"Mesuré : la particule <em>zumal</em> — introuvable par vecteurs quel que soit K ; cinq passages aux rangs 1, 3, 5, 7 et 10 une fois la fusion faite.",
+
+    "c2.t":"Un segment ne peut dépasser ce qu'une réponse peut porter",
+    "c2.b":"Le découpage était plafonné en mots, le budget de réponse en caractères. C'est la même décision dans deux unités, et le texte ne se convertit pas de l'une à l'autre à taux fixe — une URL de traçage est un seul « mot » de deux cents caractères. La fin de chaque passage long était donc coupée en route vers le modèle, sans que rien ne le signale : la recherche était juste, la citation réelle, et la réponse affirmait que le document ne contenait pas ce qui s'y trouvait manifestement.",
+    "c2.m":"Mesuré : 217 segments de pièces jointes sur 233 hors budget, 2 752 caractères en moyenne contre 1 200. La date de vol cherchée se trouvait au caractère 1 395 de son segment.",
+
+    "c3.t":"La visibilité est dans la requête, jamais après elle",
+    "c3.b":"On ne peut montrer à un modèle que les passages que son interlocuteur a le droit de lire, et ce prédicat appartient à la requête de classement elle-même : appliqué au résultat, il renvoyait silencieusement deux passages là où douze étaient demandés. Il échoue en se fermant, par sa forme et non par une règle ajoutée par-dessus : le prédicat est une disjonction sur le type de source, si bien qu'une source pour laquelle personne n'a écrit de clause est inatteignable plutôt que publique.",
+    "c3.m":"Vérifié contre la base de données en service, et pas seulement contre des doublures qui n'exécutent jamais le SQL : 26 segments pour un administrateur, 4 pour un utilisateur ordinaire — et une recherche par mot-clé sur un terme n'existant que dans le courrier d'autrui n'en renvoie rien.",
+
+    "c4.t":"Deux fournisseurs, un unique point d'appel chacun",
+    "c4.b":"Claude rédige et raisonne, Gemini lit et classe. Exactement une classe par fournisseur parle à l'API — c'est ce qui rend vrai, et non simplement souhaité, le fait que tout appel soit enregistré. La clé est une colonne chiffrée en AES-GCM, propre à chaque utilisateur, et non une propriété globale au processus ; elle circule dans la signature, de sorte que le compilateur demande à chaque point d'appel quel budget il est en train de dépenser. Il n'existe délibérément aucune valeur par défaut.",
+
+    "c5.t":"Local d'abord, payant seulement sur demande",
+    "c5.b":"La reconnaissance vocale tourne avec faster-whisper (large-v3-turbo, int8, CPU), les vecteurs avec bge-m3 via Ollama, l'OCR avec Tesseract piloté par Apache Tika. Rien de tout cela ne quitte la machine et rien ne coûte quoi que ce soit. Le lecteur visuel de Claude est nettement meilleur sur une grille ou une carte d'embarquement — et il ne s'exécute que sur pression d'un bouton, parce que le courrier arrive par salves et qu'une correction republie son propre événement.",
+    "c5.m":"Mesuré : Whisper facture par fenêtre de 30 secondes, une note de 5 secondes coûte donc autant qu'une de 26 — d'où le plafond de cinq minutes pour une note vocale acceptée par le bot.",
+
+    "c6.t":"Des invites corrigées par la mesure, pas par le goût",
+    "c6.b":"Chargé de transcrire des noms de salles en suisse-allemand, le lecteur visuel a rendu <em>zwölf</em> et <em>nüdün</em> pour <em>zwöli</em> et <em>nüüün</em> : de l'allemand correct, mais les mauvais mots, et rien dans la sortie ne l'admettait. Un mot inventé mais orthographiable est pire qu'un mot visiblement cassé, car une recherche littérale ne trouve ni l'un ni l'autre et seul le second se dénonce. Réécrite pour le dire — un mot « corrigé » est la faute la plus grave, puisque personne en aval ne peut savoir qu'il a été changé — la lecture est revenue juste.",
+    "c6.m":"Second cas : une règle interdisant de citer des passages pour les écarter tenait partout sauf sur les questions formulées comme une couverture exhaustive, où le modèle en citait 12 sur 12. Nommer explicitement ces formulations l'a ramené à 3–4 sur 12 sur trois exécutions.",
+
+    "c7.t":"L'usage d'outils, et ce à quoi la réponse ressemble vraiment",
+    "c7.b":"Les deux modèles répondent avec recherche web lorsqu'on les appelle par leur nom. Une réponse ayant utilisé un outil n'est pas un bloc de texte unique : le premier est le modèle annonçant qu'il va chercher — la vraie réponse est le texte situé après le dernier bloc d'outil, recollé, car une réponse étayée et citée s'étale sur plusieurs blocs. Un tour mis en pause doit être renvoyé inchangé, contenu chiffré de chaque résultat compris, faute de quoi la requête suivante est rejetée. Et une recherche en échec arrive en HTTP 200 dont le contenu est un objet d'erreur.",
+
+    "c8.t":"Le coût est une colonne à part entière",
+    "c8.b":"Une recherche web est facturée à la requête et non au jeton : le registre porte donc une troisième colonne de coût, plutôt que de replier la somme dans le coût de sortie, où cette colonne rapporterait autre chose que ce qu'elle prétend. Les tarifs sont de la configuration : un prix promotionnel destiné à revenir à la normale n'a pas à être écrit en dur. Un modèle absent de la liste de prix est journalisé à coût nul — un chiffre manifestement manquant envoie quelqu'un dans le fichier de configuration, un chiffre plausible inventé d'après le modèle voisin ne le fait pas.",
+
+    "s3.title":"Mesuré, non affirmé",
+    "s3.lead":"Compté dans le dépôt le jour où cette page a été écrite.",
+    "tbl.item":"Poste","tbl.value":"Valeur","tbl.note":"Remarque",
+    "m1.k":"Lignes de code","m1.n":"Java, TypeScript, SQL, SCSS, Python",
+    "m2.k":"Tests automatisés","m2.n":"1 064 méthodes de test back-end, 353 specs front-end",
+    "m3.k":"Services","m3.n":"plus 18 contrôleurs REST et 51 entités",
+    "m4.k":"Migrations de base","m4.n":"Flyway ; le schéma n'est jamais modifié par l'ORM",
+    "m5.k":"Opérations d'IA","m5.n":"chacune tarifée et comptée séparément",
+    "m6.k":"Langues d'interface","m6.n":"1 138 clés chacune, parité imposée par un test",
+    "m7.k":"Journal de décisions","m7.n":"lignes de raisonnement écrit, mesures comprises",
+
+    "s4.title":"Architecture",
+    "s4.lead":"Un noyau Spring Boot, une base de données qui est aussi le magasin de vecteurs, trois modèles locaux et deux fournisseurs payants. Ce qui peut tourner localement tourne localement.",
+    "arch.surfaces":"Surfaces","arch.core":"Noyau","arch.store":"Stockage",
+    "arch.localmodels":"Modèles locaux","arch.paidmodels":"Modèles payants",
+    "arch.web":"Web (Angular 21)","arch.voice":"Voix (Web Speech)","arch.upload":"Dépôt de documents",
+    "arch.core.node":"Spring Boot 4.1 — 98 services, JWT, règles de visibilité par ligne",
+    "arch.blob":"Fichiers stockés en base",
+    "arch.websearch":"Recherche web comme outil",
+    "arch.legend.local":"local, gratuit, ne quitte pas la machine",
+    "arch.legend.paid":"externe, facturé à l'appel",
+
+    "s5.title":"Comment c'est construit",
+    "s5.lead":"Quatre règles qui ont fait leurs preuves ici, parce que chacune a coûté cher une fois.",
+    "p1.t":"Le schéma appartient aux migrations",
+    "p1.b":"<code>ddl-auto=validate</code> : un écart entre une entité et le schéma migré fait échouer le démarrage au lieu d'altérer une table en silence. 48 migrations, dont aucune n'est jamais retouchée — Flyway en vérifie l'empreinte.",
+    "p2.t":"Vérifié contre la base, pas seulement contre des doublures",
+    "p2.b":"La suite de tests simule le dépôt de données et ne peut donc pas détecter une erreur dans une requête écrite à la main. Les règles qui comptent sont exécutées contre le schéma en service et les décomptes comparés par compte.",
+    "p3.t":"Une règle, redite là où il faut y répondre",
+    "p3.b":"La même règle de visibilité existe en SQL, en JPQL et en Java — chacune répondant à la même question à un endroit différent — avec la convention permanente qu'un écart entre les copies est un défaut dans l'une d'elles, et non une nuance.",
+    "p4.t":"Le raisonnement est consigné, revirements compris",
+    "p4.b":"9 457 lignes de journal de décisions : ce qui a été mesuré, ce qui a été choisi — et quelles décisions ont ensuite été renversées parce que la contrainte qui les justifiait avait cessé d'exister.",
+
+    "foot.note":"Le code source est dans un dépôt privé. Une présentation détaillée du système — architecture, chaîne de recherche, comptabilité des coûts — reste disponible sur demande.",
+    "foot.updated":"Mise à jour : septembre 2026"
+  },
+
+  it: {
+    "hero.eyebrow":"Sistema di IA personale · sviluppato da solo · in uso quotidiano",
+    "hero.deck":"Un secondo cervello self-hosted. Legge la mia posta, le mie scansioni e i miei messaggi vocali, archivia tutto sotto la categoria giusta e risponde a domande su tutto l'insieme — in cinque lingue, con un budget di cui rende conto <strong>fino alla sesta cifra decimale</strong>.",
+    "fact.role.k":"Ruolo","fact.role.v":"Unico architetto e sviluppatore",
+    "fact.period.k":"Periodo","fact.period.v":"Da agosto 2026",
+    "fact.scale.k":"Dimensione","fact.scale.v":"93 592 righe, 1 417 test",
+    "fact.state.k":"Stato","fact.state.v":"In esercizio quotidiano",
+
+    "s1.title":"Che cosa fa",
+    "s1.lead":"Cinque superfici su un unico corpus: un'applicazione web, un lettore di posta, un bot Telegram, una pagina vocale e un archivio documentale. Tutto ciò che arriva da una qualsiasi di esse diventa ricercabile per significato.",
+    "cap.brain.l":"Secondo cervello",
+    "cap.brain.t":"Documenti, e-mail, allegati, conversazioni e promemoria vengono segmentati, vettorializzati e recuperati per significato. Ogni risposta arriva con i passaggi da cui è stata costruita: è verificabile, non soltanto plausibile.",
+    "cap.mail.l":"Posta che si archivia da sola",
+    "cap.mail.t":"Più caselle IMAP vengono lette, riassunte e classificate da un modello che legge anche le scansioni allegate. Una risposta si redige a partire da una frase di istruzione e parte solo dopo che una persona l'ha letta.",
+    "cap.bot.l":"Un agente nella chat",
+    "cap.bot.t":"In Telegram: interrogare il corpus, dettare un messaggio a un contatto, programmare un promemoria oppure rispondere a un'e-mail rispondendo alla sua notifica. I messaggi vocali sono trascritti sulla macchina stessa.",
+    "cap.read.l":"Leggere ciò che dice un'immagine",
+    "cap.read.t":"Scansioni e fotografie sono lette automaticamente da Tesseract, oppure dalla vision di Claude su richiesta. Il lettore che costa denaro non è mai quello che parte da solo.",
+    "cap.cost.l":"Ogni chiamata contabilizzata",
+    "cap.cost.t":"Una riga per ogni chiamata al modello: il prompt, la risposta, quattro contatori di token, il prezzo a sei decimali e la chiave API che ha pagato.",
+    "cap.lang.l":"Cinque lingue, ovunque",
+    "cap.lang.t":"Interfaccia, prompt e ricerca funzionano in cinque lingue. Una domanda in italiano trova la risposta dentro un documento in tedesco — che è poi la ragione stessa di una ricerca semantica anziché lessicale.",
+
+    "s2.title":"Ingegneria dell'IA",
+    "s2.lead":"Ciò che in questo progetto vale una referenza non sono le funzionalità ma le decisioni che le reggono — ciascuna presa contro una misura, e ciascuna messa per iscritto insieme alla misura che l'ha prodotta.",
+
+    "c1.t":"Ricerca ibrida, fusa per rango",
+    "c1.b":"Una ricerca vettoriale non trova un termine raro: una parola breve e poco comune si vettorializza verso un punto generico e i passaggi che la contengono non emergono mai. Un indice <code>tsvector</code> di PostgreSQL risponde alla metà letterale, e le due classifiche vengono fuse con la <em>reciprocal rank fusion</em> — 1/(k+posizione), k=60 — perché una similarità coseno e un <code>ts_rank</code> non stanno sulla stessa scala e nessuna normalizzazione ce li porta. Letteralmente si cercano solo i termini rari: al corpus si chiede la frequenza documentale di ogni parola della domanda e tutto ciò che supera il 20 % viene scartato — cosa che non richiede alcuna lista di stop-word in nessuna delle cinque lingue.",
+    "c1.m":"Misurato: la particella <em>zumal</em> — irreperibile con i soli vettori a qualunque K; cinque passaggi alle posizioni 1, 3, 5, 7 e 10 una volta eseguita la fusione.",
+
+    "c2.t":"Un segmento non può essere più lungo di ciò che una risposta può portare",
+    "c2.b":"La segmentazione era limitata in parole, il budget della risposta in caratteri. È la stessa decisione in due unità, e il testo non si converte fra le due a tasso fisso — un URL di tracciamento è un'unica «parola» di duecento caratteri. La coda di ogni passaggio lungo veniva quindi tagliata sulla strada verso il modello, e nulla lo segnalava: il recupero era corretto, la citazione reale, e la risposta affermava che il documento non conteneva ciò che vi si trovava in piena evidenza.",
+    "c2.m":"Misurato: 217 segmenti di allegati su 233 fuori budget, in media 2 752 caratteri contro 1 200. La data del volo cercata stava al carattere 1 395 del proprio segmento.",
+
+    "c3.t":"La visibilità sta dentro la query, mai dopo di essa",
+    "c3.b":"A un modello si possono mostrare soltanto i passaggi che il suo interlocutore ha il diritto di leggere, e quel predicato appartiene alla query di ranking stessa: applicato al risultato restituiva in silenzio due passaggi dove ne erano stati richiesti dodici. Fallisce chiudendosi, per la propria forma e non per una regola aggiunta sopra: il predicato è una disgiunzione sul tipo di sorgente, cosicché una sorgente per cui nessuno ha scritto una clausola risulta irraggiungibile anziché pubblica.",
+    "c3.m":"Verificato contro il database in esercizio, non solo contro i mock che il SQL non lo eseguono mai: 26 segmenti per un amministratore, 4 per un utente semplice — e una ricerca per parola chiave su un termine presente solo nella posta altrui non ne restituisce nulla.",
+
+    "c4.t":"Due fornitori, un solo punto di chiamata ciascuno",
+    "c4.b":"Claude scrive e ragiona, Gemini legge e classifica. Esattamente una classe per fornitore parla con l'API — è questo a rendere vero, e non semplicemente auspicato, che ogni chiamata venga registrata. La chiave è una colonna cifrata in AES-GCM, propria di ciascun utente, e non una proprietà di processo; viaggia nella firma del metodo, così il compilatore chiede a ogni punto di chiamata quale budget stia spendendo. Un valore predefinito non esiste, deliberatamente.",
+
+    "c5.t":"Prima locale, a pagamento solo su richiesta",
+    "c5.b":"Il riconoscimento vocale gira con faster-whisper (large-v3-turbo, int8, CPU), gli embedding con bge-m3 tramite Ollama, l'OCR con Tesseract pilotato da Apache Tika. Nulla di tutto ciò lascia la macchina e nulla costa alcunché. Il lettore visivo di Claude è nettamente migliore su una griglia o su una carta d'imbarco — e parte solo alla pressione di un pulsante, perché la posta arriva a ondate e una correzione ripubblica il proprio evento.",
+    "c5.m":"Misurato: Whisper fattura per finestre di 30 secondi, quindi una nota di 5 secondi costa quanto una di 26 — da cui il limite di cinque minuti per un messaggio vocale accettato dal bot.",
+
+    "c6.t":"Prompt corretti dalla misura, non dal gusto",
+    "c6.b":"Chiamato a trascrivere nomi di aule in svizzero-tedesco, il lettore visivo ha restituito <em>zwölf</em> e <em>nüdün</em> al posto di <em>zwöli</em> e <em>nüüün</em>: tedesco corretto, parole sbagliate, e nulla nell'output lo ammetteva. Una parola inventata ma ortografabile è peggiore di una visibilmente rotta, perché una ricerca letterale non trova né l'una né l'altra e solo la seconda si denuncia. Riscritta per dirlo — una parola «corretta» è l'errore più grave, perché nessuno a valle può accorgersi che è stata cambiata — la lettura è tornata giusta.",
+    "c6.m":"Secondo caso: una regola contro il citare passaggi solo per scartarli reggeva ovunque tranne sulle domande formulate come copertura esaustiva, dove il modello ne citava 12 su 12. Nominare esplicitamente quelle formulazioni l'ha portato a 3–4 su 12 in tre esecuzioni.",
+
+    "c7.t":"Uso di strumenti, e com'è fatta davvero la risposta",
+    "c7.b":"Entrambi i modelli rispondono con ricerca web quando li si chiama per nome. Una risposta che ha usato uno strumento non è un unico blocco di testo: il primo è il modello che annuncia che andrà a cercare — la risposta vera è il testo dopo l'ultimo blocco di strumento, ricongiunto, perché una risposta documentata con citazioni è distribuita su più blocchi. Un turno messo in pausa va rispedito immutato, contenuto cifrato di ogni risultato compreso, altrimenti la richiesta successiva viene rifiutata. E una ricerca fallita arriva come HTTP 200 il cui contenuto è un oggetto di errore.",
+
+    "c8.t":"Il costo è una colonna di prima classe",
+    "c8.b":"Una ricerca web si fattura a richiesta e non a token: il registro porta quindi una terza colonna di costo, invece di ripiegare l'importo dentro il costo di output, dove quella colonna riporterebbe qualcosa che non è. I prezzi sono configurazione: una tariffa promozionale destinata a rientrare non deve essere un letterale nel codice. Un modello assente dal listino viene registrato a costo zero con un avviso — una cifra visibilmente mancante manda qualcuno nel file di configurazione, una cifra plausibile inventata dal modello più vicino no.",
+
+    "s3.title":"Misurato, non dichiarato",
+    "s3.lead":"Conteggiato nel repository il giorno in cui questa pagina è stata scritta.",
+    "tbl.item":"Voce","tbl.value":"Valore","tbl.note":"Nota",
+    "m1.k":"Righe di codice","m1.n":"Java, TypeScript, SQL, SCSS, Python",
+    "m2.k":"Test automatici","m2.n":"1 064 metodi di test back-end, 353 spec front-end",
+    "m3.k":"Servizi","m3.n":"oltre a 18 controller REST e 51 entità",
+    "m4.k":"Migrazioni di database","m4.n":"Flyway; lo schema non è mai alterato dall'ORM",
+    "m5.k":"Operazioni di IA","m5.n":"ciascuna tariffata e contata separatamente",
+    "m6.k":"Lingue dell'interfaccia","m6.n":"1 138 chiavi ciascuna, parità imposta da un test",
+    "m7.k":"Registro delle decisioni","m7.n":"righe di ragionamento scritto, misure comprese",
+
+    "s4.title":"Architettura",
+    "s4.lead":"Un nucleo Spring Boot, un database che è anche il magazzino vettoriale, tre modelli locali e due fornitori a pagamento. Ciò che può girare in locale gira in locale.",
+    "arch.surfaces":"Superfici","arch.core":"Nucleo","arch.store":"Archiviazione",
+    "arch.localmodels":"Modelli locali","arch.paidmodels":"Modelli a pagamento",
+    "arch.web":"Web (Angular 21)","arch.voice":"Voce (Web Speech)","arch.upload":"Caricamento documenti",
+    "arch.core.node":"Spring Boot 4.1 — 98 servizi, JWT, regole di visibilità per riga",
+    "arch.blob":"File archiviati nel database",
+    "arch.websearch":"Ricerca web come strumento",
+    "arch.legend.local":"locale, gratuito, non lascia la macchina",
+    "arch.legend.paid":"esterno, fatturato a chiamata",
+
+    "s5.title":"Come è costruito",
+    "s5.lead":"Quattro regole che qui hanno dato prova di sé, perché ognuna è costata cara una volta.",
+    "p1.t":"Lo schema appartiene alle migrazioni",
+    "p1.b":"<code>ddl-auto=validate</code>: una discrepanza fra un'entità e lo schema migrato fa fallire l'avvio invece di alterare una tabella in silenzio. 48 migrazioni, nessuna delle quali viene mai ritoccata — Flyway ne verifica il checksum.",
+    "p2.t":"Verificato contro il database, non solo contro i mock",
+    "p2.b":"La suite simula il repository e quindi non può cogliere un errore in una query scritta a mano. Le regole che contano vengono eseguite contro lo schema in esercizio e i conteggi confrontati per ciascun account.",
+    "p3.t":"Una regola, ripetuta dove va risposta",
+    "p3.b":"La stessa regola di visibilità esiste in SQL, in JPQL e in Java — ciascuna risponde alla medesima domanda in un punto diverso — con la convenzione permanente che una differenza fra le copie è un difetto in una di esse, non una sfumatura.",
+    "p4.t":"Il ragionamento è messo per iscritto, inversioni comprese",
+    "p4.b":"9 457 righe di registro decisionale: che cosa è stato misurato, che cosa è stato scelto — e quali decisioni sono state poi rovesciate perché il vincolo che le giustificava non valeva più.",
+
+    "foot.note":"Il codice sorgente è in un repository privato. Una presentazione dettagliata del sistema — architettura, catena di recupero, contabilità dei costi — è disponibile su richiesta.",
+    "foot.updated":"Aggiornato: settembre 2026"
+  },
+
+  en: {
+    "hero.eyebrow":"Personal AI system · built solo · in daily use",
+    "hero.deck":"A self-hosted second brain. It reads my mail, my scans and my voice notes, files everything under the right category, and answers questions across all of it — in five languages, on a budget it accounts for <strong>to six decimal places</strong>.",
+    "fact.role.k":"Role","fact.role.v":"Sole architect and developer",
+    "fact.period.k":"Period","fact.period.v":"Since August 2026",
+    "fact.scale.k":"Scale","fact.scale.v":"93,592 lines, 1,417 tests",
+    "fact.state.k":"State","fact.state.v":"In daily operation",
+
+    "s1.title":"What it does",
+    "s1.lead":"Five surfaces over a single corpus: a web application, a mail poller, a Telegram bot, a voice page and a document store. Anything that arrives on any of them becomes searchable by meaning.",
+    "cap.brain.l":"Second brain",
+    "cap.brain.t":"Documents, e-mail, attachments, conversations and reminders are chunked, embedded and retrieved by meaning. Every answer arrives with the passages it was built from, so it can be checked rather than merely believed.",
+    "cap.mail.l":"Mail that files itself",
+    "cap.mail.t":"Several IMAP mailboxes are polled, summarised and classified by a model that also reads the scans attached to them. A reply is drafted from one sentence of instruction and leaves only after a person has read it.",
+    "cap.bot.l":"An agent in the chat",
+    "cap.bot.t":"In Telegram: ask the corpus, dictate a message to a contact, schedule a reminder, or answer an e-mail by replying to its notification. Voice notes are transcribed on the machine itself.",
+    "cap.read.l":"Reading what a picture says",
+    "cap.read.t":"Scans and photographs are read automatically by Tesseract, or by Claude's vision model on request. The reader that costs money is never the one that runs by itself.",
+    "cap.cost.l":"Every call accounted for",
+    "cap.cost.t":"One row per model call: the prompt, the response, four token counters, the price to six decimals, and whose API key paid for it.",
+    "cap.lang.l":"Five languages, throughout",
+    "cap.lang.t":"Interface, prompts and retrieval all work in five languages. A question asked in English finds its answer inside a German document — which is the whole reason for searching by meaning rather than by word.",
+
+    "s2.title":"AI engineering",
+    "s2.lead":"What makes this worth citing is not the features but the decisions underneath them — each taken against a measurement, and each written down together with the measurement that produced it.",
+
+    "c1.t":"Hybrid retrieval, fused by rank",
+    "c1.b":"Vector search cannot find a rare token: a short, uncommon word embeds to a generic point and the passages holding it never surface. A PostgreSQL <code>tsvector</code> index answers the literal half, and the two rankings are merged by reciprocal rank fusion — 1/(k+position), k=60 — because a cosine similarity and a <code>ts_rank</code> are not on one scale and no rescaling puts them there. Only rare terms are searched literally: the corpus is asked the document frequency of each word in the question and anything above 20% is dropped, which needs no stop-word list in any of the five languages.",
+    "c1.m":"Measured: the particle <em>zumal</em> — not found at any K by vectors alone; five passages at ranks 1, 3, 5, 7 and 10 once fused.",
+
+    "c2.t":"A chunk may not be longer than what an answer will carry",
+    "c2.b":"Chunking was capped in words; the answer budget was capped in characters. Those are the same decision in two units, and text does not convert between them at a fixed rate — a tracking URL is one “word” two hundred characters long. So the tail of every long passage was dropped on the way to the model, and nothing reported it: retrieval was right, the citation was real, and the answer said the document did not contain what it plainly did.",
+    "c2.m":"Measured: 217 of 233 attachment chunks over budget, averaging 2,752 characters against 1,200. The flight date being looked for sat at character 1,395 of its chunk.",
+
+    "c3.t":"Retrieval is scoped inside the query, never after it",
+    "c3.b":"A model may only be shown passages its caller is allowed to read, and that predicate belongs in the ranking query itself: applied to the results it silently handed back two passages where twelve were asked for. It fails closed by its shape rather than by a rule added on top — the predicate is a disjunction over source type, so a source nobody has written a clause for is unreachable instead of public.",
+    "c3.m":"Verified against the live database rather than only against mocks, which never run the SQL: 26 chunks for an administrator, 4 for an ordinary user — and a keyword search for a term appearing only in someone else's mail returns none of it.",
+
+    "c4.t":"Two providers, exactly one call site each",
+    "c4.b":"Claude writes and reasons; Gemini reads and classifies. Exactly one class per provider speaks to the API, which is what makes “every call is recorded” true rather than aspirational. The key is a per-user, AES-GCM-encrypted column rather than a process-wide property, and it travels through the method signature — so the compiler asks every call site whose budget it is spending. There is deliberately no default.",
+
+    "c5.t":"Local first, paid only on request",
+    "c5.b":"Speech-to-text runs on faster-whisper (large-v3-turbo, int8, CPU); embeddings on bge-m3 through Ollama; OCR on Tesseract driven by Apache Tika. None of it leaves the machine and none of it costs anything. Claude's vision reader is decisively better on a grid or a boarding pass — and it runs only when a button is pressed, because mail arrives in bursts and an edit republishes its own event.",
+    "c5.m":"Measured: Whisper pays per 30-second window, so a 5-second note costs what a 26-second one costs — which is what sets the five-minute ceiling on a voice note the bot will accept.",
+
+    "c6.t":"Prompts corrected by measurement, not by taste",
+    "c6.b":"Asked to transcribe Swiss-German room names, the vision reader returned <em>zwölf</em> and <em>nüdün</em> for <em>zwöli</em> and <em>nüüün</em>: correct German, wrong words, with nothing in the output admitting it. An invented-but-spellable word is worse than a visibly broken one, because a literal search matches neither and only the broken one confesses. Rewritten to say exactly that — a “corrected” word is the graver mistake, because nobody downstream can tell it was changed — the reading came back right.",
+    "c6.m":"Second instance: a rule against citing passages in order to dismiss them held everywhere except questions phrased as exhaustive coverage, where the model cited 12 of 12. Naming those phrasings explicitly brought it to 3–4 of 12 across three runs.",
+
+    "c7.t":"Tool use, and what the response really looks like",
+    "c7.b":"Both models answer with web search when addressed by name. A response that used a tool is not one text block: the first is the model saying it will look something up — the answer is the text after the last tool block, joined, because a grounded answer carrying citations is split across several. A paused turn must be echoed back unchanged, each result's encrypted content included, or the next request is rejected. And a failed search arrives as an HTTP 200 whose content is an error object.",
+
+    "c8.t":"Cost is a first-class column",
+    "c8.b":"A web search is billed per request and not per token, so the ledger carries a third cost column rather than folding the charge into output, where that column would report something it is not. Prices are configuration: a promotional rate that later reverts must not be a literal in the code. A model missing from the price list is logged at zero cost with a warning — a visibly missing figure sends somebody to the configuration file, and a plausible one invented from the nearest model does not.",
+
+    "s3.title":"Measured, not claimed",
+    "s3.lead":"Counted in the repository on the day this page was written.",
+    "tbl.item":"Item","tbl.value":"Value","tbl.note":"Note",
+    "m1.k":"Lines of code","m1.n":"Java, TypeScript, SQL, SCSS, Python",
+    "m2.k":"Automated tests","m2.n":"1,064 back-end test methods, 353 front-end specs",
+    "m3.k":"Services","m3.n":"plus 18 REST controllers and 51 entities",
+    "m4.k":"Database migrations","m4.n":"Flyway; the schema is never altered by the ORM",
+    "m5.k":"AI operations","m5.n":"each priced and counted separately",
+    "m6.k":"Interface languages","m6.n":"1,138 keys each, parity enforced by a test",
+    "m7.k":"Decision record","m7.n":"lines of written reasoning, measurements included",
+
+    "s4.title":"Architecture",
+    "s4.lead":"A Spring Boot core, a database that is also the vector store, three local models and two paid providers. Whatever can run locally runs locally.",
+    "arch.surfaces":"Surfaces","arch.core":"Core","arch.store":"Storage",
+    "arch.localmodels":"Local models","arch.paidmodels":"Paid models",
+    "arch.web":"Web (Angular 21)","arch.voice":"Voice (Web Speech)","arch.upload":"Document upload",
+    "arch.core.node":"Spring Boot 4.1 — 98 services, JWT, per-row visibility rules",
+    "arch.blob":"Files stored in the database",
+    "arch.websearch":"Web search as a tool",
+    "arch.legend.local":"local, free, never leaves the machine",
+    "arch.legend.paid":"external, billed per call",
+
+    "s5.title":"How it is built",
+    "s5.lead":"Four rules that earned their place here, because each one cost something once.",
+    "p1.t":"The schema is owned by migrations",
+    "p1.b":"<code>ddl-auto=validate</code>: a mismatch between an entity and the migrated schema fails startup instead of altering a table silently. 48 migrations, none of which is ever edited afterwards — Flyway checksums them.",
+    "p2.t":"Verified against the database, not only against mocks",
+    "p2.b":"The suite mocks the repository and therefore cannot catch a mistake in a hand-written query. The rules that matter are run against the live schema and the counts compared per account.",
+    "p3.t":"One rule, restated where it has to be answered",
+    "p3.b":"The same visibility rule exists in SQL, in JPQL and in Java — each answering the same question in a different place — under a standing convention that a difference between the copies is a bug in one of them rather than a nuance.",
+    "p4.t":"Reasoning is written down, reversals included",
+    "p4.b":"9,457 lines of decision record: what was measured, what was chosen — and which decisions were later reversed because the constraint that justified them had expired.",
+
+    "foot.note":"The source lives in a private repository. A walkthrough of the system — architecture, retrieval pipeline, cost accounting — is available on request.",
+    "foot.updated":"Updated: September 2026"
+  }
+};
+
+const SUPPORTED = ["de","fr","it","en"];
+const STORE_KEY = "kia.presentation.lang";
+
+function apply(lang){
+  const t = I18N[lang];
+  if(!t) return;
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{
+    const v = t[el.dataset.t];
+    if(v !== undefined) el.textContent = v;
+  });
+  document.querySelectorAll("[data-h]").forEach(el=>{
+    const v = t[el.dataset.h];
+    if(v !== undefined) el.innerHTML = v;
+  });
+  document.querySelectorAll(".langs button").forEach(b=>{
+    b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+  });
+  try{ localStorage.setItem(STORE_KEY, lang); }catch(e){}
+}
+
+function initialLang(){
+  const hash = location.hash.replace("#","").toLowerCase();
+  if(SUPPORTED.includes(hash)) return hash;
+  try{
+    const saved = localStorage.getItem(STORE_KEY);
+    if(saved && SUPPORTED.includes(saved)) return saved;
+  }catch(e){}
+  for(const l of (navigator.languages || [navigator.language || ""])){
+    const code = String(l).slice(0,2).toLowerCase();
+    if(SUPPORTED.includes(code)) return code;
+  }
+  return "de";
+}
+
+document.querySelectorAll(".langs button").forEach(b=>{
+  b.addEventListener("click", ()=>apply(b.dataset.lang));
+});
+window.addEventListener("hashchange", ()=>{
+  const h = location.hash.replace("#","").toLowerCase();
+  if(SUPPORTED.includes(h)) apply(h);
+});
+apply(initialLang());
+</script>
+
+</body>
+</html>
