@@ -1172,6 +1172,18 @@ const I18N = {
 const SUPPORTED = ["de","fr","it","en","ro"];
 const STORE_KEY = "kia.presentation.lang";
 
+// Bumped whenever the figures are retaken, and it has to be: the eighty images
+// keep the same eighty addresses forever, and GitHub Pages serves them with
+// Cache-Control max-age=600, so a browser that has seen the page before goes on
+// showing the figures it already holds and never asks whether they changed.
+//
+// That is not hypothetical. The figures were retaken on 2026-09-27 to add the
+// Help entry to every navigation bar, and the first person to open the page
+// afterwards saw the English set still without it — from their own cache, while
+// the published files were already correct. A refresh nobody can see is a
+// refresh that did not happen.
+const SHOTS_VERSION = "2026-09-27";
+
 function apply(lang){
   const t = I18N[lang];
   if(!t) return;
@@ -1188,7 +1200,7 @@ function apply(lang){
     b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
   });
   document.querySelectorAll("img[data-shot]").forEach(img=>{
-    const next = "shots/" + lang + "/" + img.dataset.shot + ".png";
+    const next = "shots/" + lang + "/" + img.dataset.shot + ".png?v=" + SHOTS_VERSION;
     if(img.getAttribute("src") !== next) img.setAttribute("src", next);
   });
   try{ localStorage.setItem(STORE_KEY, lang); }catch(e){}

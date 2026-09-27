@@ -74,9 +74,18 @@ node tools/shoot.mjs --only help,find   # one or two figures
 node tools/shoot.mjs --only ai-usage --base http://localhost:4201 --wait-for-login
 ```
 
-Afterwards, read the three numbers off the new `ai-usage` image and correct `fig.usage`
-in all five tables. That caption quotes what is in the figure, so it goes stale the
-moment the figure is retaken.
+Afterwards, two things:
+
+**Bump `SHOTS_VERSION` in `index.html`.** The eighty images keep the same eighty
+addresses forever and GitHub Pages serves them with `Cache-Control: max-age=600`, so
+without a new token a browser that has seen the page before goes on showing the figures
+it already holds. That is how the first retake shipped: the published files were correct
+and the first reader saw the old English set out of their own cache. A refresh nobody can
+see is a refresh that did not happen.
+
+**Correct `fig.usage` in all five tables**, reading the three numbers off the new
+`ai-usage` image. That caption quotes what is in the figure, so it goes stale the moment
+the figure is retaken.
 
 ## Recounting the figures in §04
 
