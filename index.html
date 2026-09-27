@@ -264,11 +264,12 @@
 <div class="bar">
   <div class="wrap bar__in">
     <div class="mark"><i></i>KIA Home</div>
-    <div class="langs" role="group" aria-label="Sprache / Langue / Lingua / Language">
+    <div class="langs" role="group" aria-label="Sprache / Langue / Lingua / Language / Limba">
       <button type="button" data-lang="de" aria-pressed="true">DE</button>
       <button type="button" data-lang="fr" aria-pressed="false">FR</button>
       <button type="button" data-lang="it" aria-pressed="false">IT</button>
       <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang="ro" aria-pressed="false">RO</button>
     </div>
   </div>
 </div>
@@ -379,8 +380,12 @@
       <figcaption><b>Fig. 14</b><span data-t="fig.settings"></span></figcaption>
     </figure>
     <figure>
+      <img class="shot" data-shot="help" loading="lazy" alt="">
+      <figcaption><b>Fig. 15</b><span data-t="fig.help"></span></figcaption>
+    </figure>
+    <figure>
       <img class="shot" data-shot="languages" loading="lazy" alt="">
-      <figcaption><b>Fig. 15</b><span data-t="fig.langs"></span></figcaption>
+      <figcaption><b>Fig. 16</b><span data-t="fig.langs"></span></figcaption>
     </figure>
   </div>
 </section>
@@ -482,13 +487,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td class="k" data-t="m1.k"></td><td class="v">93 592</td><td class="n" data-t="m1.n"></td></tr>
-        <tr><td class="k" data-t="m2.k"></td><td class="v">1 417</td><td class="n" data-t="m2.n"></td></tr>
+        <tr><td class="k" data-t="m1.k"></td><td class="v">96 307</td><td class="n" data-t="m1.n"></td></tr>
+        <tr><td class="k" data-t="m2.k"></td><td class="v">1 430</td><td class="n" data-t="m2.n"></td></tr>
         <tr><td class="k" data-t="m3.k"></td><td class="v">98</td><td class="n" data-t="m3.n"></td></tr>
         <tr><td class="k" data-t="m4.k"></td><td class="v">48</td><td class="n" data-t="m4.n"></td></tr>
         <tr><td class="k" data-t="m5.k"></td><td class="v">14</td><td class="n" data-t="m5.n"></td></tr>
         <tr><td class="k" data-t="m6.k"></td><td class="v">5</td><td class="n" data-t="m6.n"></td></tr>
-        <tr><td class="k" data-t="m7.k"></td><td class="v">9 457</td><td class="n" data-t="m7.n"></td></tr>
+        <tr><td class="k" data-t="m7.k"></td><td class="v">9 622</td><td class="n" data-t="m7.n"></td></tr>
       </tbody>
     </table>
   </div>
@@ -592,7 +597,7 @@ const I18N = {
     "hero.caption":"Die Abrufseite, die den Rest erklärt: eine Frage, die Passagen, aus denen eine Antwort gebaut würde, und ihre Ähnlichkeitswerte. Dieselbe Ansicht steht als Abb. 9 in der Übersicht unten.",
     "fact.role.k":"Rolle","fact.role.v":"Alleiniger Architekt und Entwickler",
     "fact.period.k":"Zeitraum","fact.period.v":"Seit August 2026",
-    "fact.scale.k":"Umfang","fact.scale.v":"93 592 Zeilen, 1 417 Tests",
+    "fact.scale.k":"Umfang","fact.scale.v":"96 307 Zeilen, 1 430 Tests",
     "fact.state.k":"Stand","fact.state.v":"Im täglichen Betrieb",
 
     "s1.title":"Was es tut",
@@ -619,7 +624,7 @@ const I18N = {
     "fig.voice":"Die Sprachseite. Erkennung und Sprachausgabe laufen beide im Browser; der Server sieht nie Audio, sondern nur Text — die Grenze, die es erlaubt, die Erkennung auszutauschen, ohne Schema, Dienst oder Oberfläche anzufassen.",
     "s6.lead":"Aufnahmen einer eigens aufgesetzten Demo-Instanz: dieselbe Anwendung, dieselben Migrationen, ein zweites Schema mit erfundenen Daten. Alle Personen, Adressen und Dokumente sind ausgedacht, die Mail-Domains sind die durch RFC 2606 reservierten. Nichts ist abgedeckt, weil nichts jemandem gehört. Die einzige Ausnahme ist Abb. 11, siehe dort. Die Bilder wechseln mit der Sprache oben rechts.",
     "fig.brain":"Eine auf Englisch getippte Frage über einen Korpus aus deutschen und italienischen Dokumenten. Gezeigt ist der Abruf allein — diese Instanz hat keinen API-Schlüssel, es wird also kein Modell aufgerufen. Die Buchungsbestätigung kommt mit 0,651 zurück, das Ticket mit 0,523, beide aus 20 durchsuchten Quellen.",
-    "fig.usage":"Die eine Abbildung aus der echten Instanz, und zwar mit Absicht: 669 Aufrufe, 1 554 093 Token, $3,2715 sind gemessene Beträge. Erfundene Zahlen wären hier genau die Art Beleg, die eine solche Seite nicht führen sollte. Aufgeschlüsselt nach Funktion, mit einem Restbudget, das aus den Zeilen selbst berechnet wird.",
+    "fig.usage":"Die eine Abbildung aus der echten Instanz, und zwar mit Absicht: 697 Aufrufe, 1 641 954 Token, $3,4143 sind gemessene Beträge. Erfundene Zahlen wären hier genau die Art Beleg, die eine solche Seite nicht führen sollte. Aufgeschlüsselt nach Funktion, mit einem Restbudget, das aus den Zeilen selbst berechnet wird.",
     "fig.keys":"Der API-Schlüssel ist eine Spalte pro Benutzer, AES-GCM-verschlüsselt und nie an den Browser zurückgegeben: das Feld meldet, dass ein Schlüssel hinterlegt ist, und bleibt leer. Leer speichern heisst „den vorhandenen behalten\".",
     "fig.tables":"Jede Tabelle sortiert und filtert aus ihrem eigenen Kopf heraus und blättert in 25er-Schritten — alles im Browser abgeleitet, weil kein Listen-Endpunkt blättert und die Zeilen damit ohnehin schon da sind.",
     "fig.plan":"Der Plan einer Kategorie: Balken werden zum Verschieben gezogen, Pfeile tragen die Abhängigkeiten, und was auf eine Aufgabe wartet, wird mitgeschoben — aber nie nach vorn gezogen.",
@@ -627,6 +632,7 @@ const I18N = {
     "fig.contacts":"Der Personenkatalog: eine Zeile pro Mensch, nicht pro Kanal, mit E-Mail und Telegram nebeneinander. Die Zeilen entstehen von selbst aus empfangener Post und aus Chats. Die Spalte „Aliasse\" hält fest, wie jemand tatsächlich genannt wird — sie ist es, die einen gesprochenen Spitznamen bei der richtigen Person ankommen lässt.",
     "fig.users":"Konten und Rollen. Auffällig ist, was in der eigenen Zeile fehlt: kein Überlaufmenü. Ein Administrator kann sein eigenes Konto weder abschalten noch dessen Passwort zurücksetzen — die Anwendung startet mit einem einzigen Administrator, und wer sich selbst aussperrt, kommt von innen nicht zurück.",
     "fig.settings":"Der Telegram-Token liegt verschlüsselt in der Datenbank statt in einer Datei, damit ihn diejenige Person wechseln kann, die für die Anwendung verantwortlich ist — wirksam beim nächsten Abruf, nach fünfzehn Sekunden, ohne Neustart. Er wird nie zurückgegeben: das Feld meldet nur, ob einer hinterlegt ist. In dieser Instanz ist keiner hinterlegt, weshalb auch nichts pollt.",
+    "fig.help":"Das Handbuch, ein Kapitel pro Menüeintrag. Geschlossen ist die Liste der Titel das Inhaltsverzeichnis — was Sprungmarken, Anker und die Scrollposition erspart, die sie wiederherstellen müssten. Dass hier zwei Kapitel gleichzeitig offen stehen, ist der Punkt und nicht der Zufall: die Gruppe schliesst sich bewusst nicht gegenseitig, weil das Erste, was jemand hier tut, zwei Kapitel vergleichen ist. Achtzehn Kapitel, weil dieses Konto Administrator ist — wer eine Seite nicht öffnen darf, bekommt auch ihr Kapitel nicht zu sehen.",
     "s2.title":"KI-Engineering",
     "s2.lead":"Was an diesem Projekt eine Referenz wert ist, sind nicht die Funktionen, sondern die Entscheidungen darunter — jede gegen eine Messung getroffen und jede zusammen mit dieser Messung schriftlich festgehalten.",
 
@@ -663,11 +669,11 @@ const I18N = {
     "s3.lead":"Am Tag der Erstellung dieser Seite im Repository ausgezählt.",
     "tbl.item":"Position","tbl.value":"Wert","tbl.note":"Anmerkung",
     "m1.k":"Codezeilen","m1.n":"Java, TypeScript, SQL, SCSS, Python",
-    "m2.k":"Automatisierte Tests","m2.n":"1 064 Backend-Testmethoden, 353 Frontend-Specs",
+    "m2.k":"Automatisierte Tests","m2.n":"1 064 Backend-Testmethoden, 366 Frontend-Specs",
     "m3.k":"Services","m3.n":"dazu 18 REST-Controller und 51 Entitäten",
     "m4.k":"Datenbank-Migrationen","m4.n":"Flyway; das Schema wird nie vom ORM verändert",
     "m5.k":"KI-Operationen","m5.n":"jede einzeln bepreist und gezählt",
-    "m6.k":"Oberflächensprachen","m6.n":"je 1 138 Schlüssel, Parität durch einen Test erzwungen",
+    "m6.k":"Oberflächensprachen","m6.n":"je 1 186 Schlüssel, Parität durch einen Test erzwungen",
     "m7.k":"Entscheidungsprotokoll","m7.n":"Zeilen dokumentierter Begründung, Messungen inbegriffen",
 
     "s4.title":"Architektur",
@@ -690,7 +696,7 @@ const I18N = {
     "p3.t":"Eine Regel, dort wiederholt, wo sie beantwortet werden muss",
     "p3.b":"Dieselbe Sichtbarkeitsregel existiert in SQL, in JPQL und in Java — jede beantwortet dieselbe Frage an einer anderen Stelle — mit der stehenden Vereinbarung, dass ein Unterschied zwischen den Kopien ein Fehler in einer von ihnen ist und keine Nuance.",
     "p4.t":"Begründungen werden aufgeschrieben, Umkehrungen eingeschlossen",
-    "p4.b":"9 457 Zeilen Entscheidungsprotokoll: was gemessen wurde, was gewählt wurde — und welche Entscheidungen später umgekehrt wurden, weil die Einschränkung, die sie rechtfertigte, nicht mehr galt.",
+    "p4.b":"9 622 Zeilen Entscheidungsprotokoll: was gemessen wurde, was gewählt wurde — und welche Entscheidungen später umgekehrt wurden, weil die Einschränkung, die sie rechtfertigte, nicht mehr galt.",
 
     "foot.note":"Der Quellcode liegt in einem privaten Repository. Eine Durchsprache des Systems — Architektur, Retrieval-Pipeline, Kostenrechnung — jederzeit auf Anfrage.",
     "foot.updated":"Stand: September 2026"
@@ -703,7 +709,7 @@ const I18N = {
     "hero.caption":"La page de recherche, qui explique tout le reste : une question, les passages dont une réponse serait faite, et leurs scores de similarité. La même vue figure en fig. 9 dans la revue ci-dessous.",
     "fact.role.k":"Rôle","fact.role.v":"Seul architecte et développeur",
     "fact.period.k":"Période","fact.period.v":"Depuis août 2026",
-    "fact.scale.k":"Ampleur","fact.scale.v":"93 592 lignes, 1 417 tests",
+    "fact.scale.k":"Ampleur","fact.scale.v":"96 307 lignes, 1 430 tests",
     "fact.state.k":"État","fact.state.v":"En exploitation quotidienne",
 
     "s1.title":"Ce qu'il fait",
@@ -730,7 +736,7 @@ const I18N = {
     "fig.voice":"La page vocale. Reconnaissance et synthèse se font toutes deux dans le navigateur ; le serveur ne voit jamais d'audio, seulement du texte — la frontière qui permet de remplacer le moteur sans toucher au schéma, au service ni à l'interface.",
     "s6.lead":"Captures d'une instance de démonstration montée pour l'occasion : la même application, les mêmes migrations, un second schéma rempli de données inventées. Toutes les personnes, adresses et pièces sont fictives et les domaines de messagerie sont ceux que réserve la RFC 2606. Rien n'est masqué, puisque rien n'appartient à personne. Seule la fig. 11 fait exception, voir sa légende. Les images changent avec la langue, en haut à droite.",
     "fig.brain":"Une question tapée en anglais sur un corpus de documents allemands et italiens. Seule la recherche est montrée : cette instance n'a pas de clé d'API, donc aucun modèle n'est appelé. La confirmation de réservation ressort à 0,651 et le billet à 0,523, sur 20 sources parcourues.",
-    "fig.usage":"La seule figure tirée de l'instance réelle, et c'est délibéré : 669 appels, 1 554 093 jetons, 3,2715 $ sont des montants mesurés. Des chiffres inventés seraient ici exactement le genre de preuve qu'une telle page ne devrait pas produire. Ventilés par fonctionnalité, avec un budget restant calculé à partir des lignes elles-mêmes.",
+    "fig.usage":"La seule figure tirée de l'instance réelle, et c'est délibéré : 697 appels, 1 641 954 jetons, 3,4143 $ sont des montants mesurés. Des chiffres inventés seraient ici exactement le genre de preuve qu'une telle page ne devrait pas produire. Ventilés par fonctionnalité, avec un budget restant calculé à partir des lignes elles-mêmes.",
     "fig.keys":"La clé d'API est une colonne par utilisateur, chiffrée en AES-GCM et jamais renvoyée au navigateur : le champ indique qu'une clé est enregistrée et reste vide. Enregistrer à vide signifie « garder celle en place ».",
     "fig.tables":"Chaque tableau trie et filtre depuis son propre en-tête et pagine par 25 — le tout dérivé dans le navigateur, puisque aucun point d'accès ne pagine et que les lignes sont donc déjà toutes là.",
     "fig.plan":"Le plan d'une catégorie : les barres se déplacent à la souris, les flèches portent les dépendances, et ce qui attend une tâche est poussé avec elle — mais jamais tiré vers l'avant.",
@@ -738,6 +744,7 @@ const I18N = {
     "fig.contacts":"Le catalogue des personnes : une ligne par personne et non par canal, l'adresse et le compte Telegram côte à côte. Les lignes apparaissent d'elles-mêmes à partir du courrier reçu et des conversations. La colonne « alias » consigne les noms réellement employés — c'est elle qui permet à un surnom prononcé d'atteindre la bonne personne.",
     "fig.users":"Comptes et rôles. Le plus parlant est ce qui manque sur sa propre ligne : pas de menu. Un administrateur ne peut ni désactiver son propre compte ni en réinitialiser le mot de passe — l'application démarre avec un seul administrateur, et qui s'enferme dehors ne peut plus rentrer par l'intérieur.",
     "fig.settings":"Le jeton Telegram vit chiffré en base plutôt que dans un fichier, pour que la personne responsable de l'application puisse le changer — effectif au relevé suivant, quinze secondes plus tard, sans rien redémarrer. Il n'est jamais renvoyé : le champ dit seulement s'il y en a un. Dans cette instance il n'y en a pas, et rien n'interroge donc quoi que ce soit.",
+    "fig.help":"Le manuel, un chapitre par entrée du menu. Fermée, la liste des titres est la table des matières — ce qui épargne les ancres, les liens internes et la position de défilement qu'il faudrait restaurer. Que deux chapitres soient ouverts en même temps est le propos et non le hasard : le groupe n'est délibérément pas exclusif, parce que la première chose qu'on y fait est de comparer deux chapitres. Dix-huit chapitres, parce que ce compte est administrateur — qui ne peut pas ouvrir une page n'en reçoit pas le chapitre.",
     "s2.title":"Ingénierie de l'IA",
     "s2.lead":"Ce qui, dans ce projet, vaut une référence, ce ne sont pas les fonctionnalités mais les décisions qui les portent — chacune prise contre une mesure, et chacune consignée avec la mesure qui l'a produite.",
 
@@ -774,11 +781,11 @@ const I18N = {
     "s3.lead":"Compté dans le dépôt le jour où cette page a été écrite.",
     "tbl.item":"Poste","tbl.value":"Valeur","tbl.note":"Remarque",
     "m1.k":"Lignes de code","m1.n":"Java, TypeScript, SQL, SCSS, Python",
-    "m2.k":"Tests automatisés","m2.n":"1 064 méthodes de test back-end, 353 specs front-end",
+    "m2.k":"Tests automatisés","m2.n":"1 064 méthodes de test back-end, 366 specs front-end",
     "m3.k":"Services","m3.n":"plus 18 contrôleurs REST et 51 entités",
     "m4.k":"Migrations de base","m4.n":"Flyway ; le schéma n'est jamais modifié par l'ORM",
     "m5.k":"Opérations d'IA","m5.n":"chacune tarifée et comptée séparément",
-    "m6.k":"Langues d'interface","m6.n":"1 138 clés chacune, parité imposée par un test",
+    "m6.k":"Langues d'interface","m6.n":"1 186 clés chacune, parité imposée par un test",
     "m7.k":"Journal de décisions","m7.n":"lignes de raisonnement écrit, mesures comprises",
 
     "s4.title":"Architecture",
@@ -801,7 +808,7 @@ const I18N = {
     "p3.t":"Une règle, redite là où il faut y répondre",
     "p3.b":"La même règle de visibilité existe en SQL, en JPQL et en Java — chacune répondant à la même question à un endroit différent — avec la convention permanente qu'un écart entre les copies est un défaut dans l'une d'elles, et non une nuance.",
     "p4.t":"Le raisonnement est consigné, revirements compris",
-    "p4.b":"9 457 lignes de journal de décisions : ce qui a été mesuré, ce qui a été choisi — et quelles décisions ont ensuite été renversées parce que la contrainte qui les justifiait avait cessé d'exister.",
+    "p4.b":"9 622 lignes de journal de décisions : ce qui a été mesuré, ce qui a été choisi — et quelles décisions ont ensuite été renversées parce que la contrainte qui les justifiait avait cessé d'exister.",
 
     "foot.note":"Le code source est dans un dépôt privé. Une présentation détaillée du système — architecture, chaîne de recherche, comptabilité des coûts — reste disponible sur demande.",
     "foot.updated":"Mise à jour : septembre 2026"
@@ -814,7 +821,7 @@ const I18N = {
     "hero.caption":"La pagina di recupero, che spiega tutto il resto: una domanda, i passaggi da cui una risposta verrebbe costruita e i loro punteggi di somiglianza. La stessa vista è la fig. 9 nella rassegna qui sotto.",
     "fact.role.k":"Ruolo","fact.role.v":"Unico architetto e sviluppatore",
     "fact.period.k":"Periodo","fact.period.v":"Da agosto 2026",
-    "fact.scale.k":"Dimensione","fact.scale.v":"93 592 righe, 1 417 test",
+    "fact.scale.k":"Dimensione","fact.scale.v":"96 307 righe, 1 430 test",
     "fact.state.k":"Stato","fact.state.v":"In esercizio quotidiano",
 
     "s1.title":"Che cosa fa",
@@ -841,7 +848,7 @@ const I18N = {
     "fig.voice":"La pagina vocale. Riconoscimento e sintesi avvengono entrambi nel browser; il server non vede mai audio, solo testo — il confine che consente di sostituire il motore senza toccare schema, servizio o interfaccia.",
     "s6.lead":"Immagini di un'istanza dimostrativa allestita apposta: la stessa applicazione, le stesse migrazioni, un secondo schema riempito di dati inventati. Tutte le persone, gli indirizzi e i documenti sono fittizi e i domini di posta sono quelli riservati dalla RFC 2606. Nulla è coperto, perché nulla appartiene a qualcuno. L'unica eccezione è la fig. 11, si veda la sua didascalia. Le immagini cambiano con la lingua, in alto a destra.",
     "fig.brain":"Una domanda scritta in inglese su un corpus di documenti tedeschi e italiani. È mostrato il solo recupero: questa istanza non ha una chiave API, quindi nessun modello viene chiamato. La conferma di prenotazione risale a 0,651 e il biglietto a 0,523, su 20 fonti esaminate.",
-    "fig.usage":"L'unica figura presa dall'istanza reale, ed è voluto: 669 chiamate, 1 554 093 token, 3,2715 $ sono importi misurati. Numeri inventati sarebbero qui esattamente il tipo di prova che una pagina simile non dovrebbe portare. Suddivisi per funzione, con un budget residuo calcolato dalle righe stesse.",
+    "fig.usage":"L'unica figura presa dall'istanza reale, ed è voluto: 697 chiamate, 1 641 954 token, 3,4143 $ sono importi misurati. Numeri inventati sarebbero qui esattamente il tipo di prova che una pagina simile non dovrebbe portare. Suddivisi per funzione, con un budget residuo calcolato dalle righe stesse.",
     "fig.keys":"La chiave API è una colonna per utente, cifrata in AES-GCM e mai restituita al browser: il campo dichiara che una chiave è memorizzata e resta vuoto. Salvare vuoto significa «tieni quella che c'è».",
     "fig.tables":"Ogni tabella ordina e filtra dalla propria intestazione e pagina a 25 righe — tutto derivato nel browser, perché nessun endpoint pagina e quindi le righe sono già tutte presenti.",
     "fig.plan":"Il piano di una categoria: le barre si trascinano per riprogrammare, le frecce portano le dipendenze, e ciò che attende un'attività viene spinto con essa — ma mai tirato in avanti.",
@@ -849,6 +856,7 @@ const I18N = {
     "fig.contacts":"Il catalogo delle persone: una riga per persona e non per canale, con l'indirizzo e il contatto Telegram affiancati. Le righe compaiono da sole dalla posta ricevuta e dalle conversazioni. La colonna «alias» registra come qualcuno viene davvero chiamato — è quella che fa arrivare un soprannome pronunciato alla persona giusta.",
     "fig.users":"Account e ruoli. La cosa più eloquente è ciò che manca sulla propria riga: nessun menu. Un amministratore non può disattivare il proprio account né reimpostarne la password — l'applicazione parte con un solo amministratore, e chi si chiude fuori non rientra dall'interno.",
     "fig.settings":"Il token di Telegram sta cifrato nel database anziché in un file, perché possa cambiarlo la persona responsabile dell'applicazione — efficace al recupero successivo, dopo quindici secondi, senza riavviare nulla. Non viene mai restituito: il campo dice soltanto se ce n'è uno. In questa istanza non c'è, e infatti nulla interroga alcunché.",
+    "fig.help":"Il manuale, un capitolo per voce di menu. Chiusa, la lista dei titoli è l'indice — il che risparmia le ancore, i collegamenti interni e la posizione di scorrimento che andrebbe ripristinata. Che due capitoli stiano aperti insieme è il punto e non un caso: il gruppo non è volutamente esclusivo, perché la prima cosa che si fa qui è confrontare due capitoli. Diciotto capitoli, perché questo account è amministratore — chi non può aprire una pagina non ne riceve nemmeno il capitolo.",
     "s2.title":"Ingegneria dell'IA",
     "s2.lead":"Ciò che in questo progetto vale una referenza non sono le funzionalità ma le decisioni che le reggono — ciascuna presa contro una misura, e ciascuna messa per iscritto insieme alla misura che l'ha prodotta.",
 
@@ -885,11 +893,11 @@ const I18N = {
     "s3.lead":"Conteggiato nel repository il giorno in cui questa pagina è stata scritta.",
     "tbl.item":"Voce","tbl.value":"Valore","tbl.note":"Nota",
     "m1.k":"Righe di codice","m1.n":"Java, TypeScript, SQL, SCSS, Python",
-    "m2.k":"Test automatici","m2.n":"1 064 metodi di test back-end, 353 spec front-end",
+    "m2.k":"Test automatici","m2.n":"1 064 metodi di test back-end, 366 spec front-end",
     "m3.k":"Servizi","m3.n":"oltre a 18 controller REST e 51 entità",
     "m4.k":"Migrazioni di database","m4.n":"Flyway; lo schema non è mai alterato dall'ORM",
     "m5.k":"Operazioni di IA","m5.n":"ciascuna tariffata e contata separatamente",
-    "m6.k":"Lingue dell'interfaccia","m6.n":"1 138 chiavi ciascuna, parità imposta da un test",
+    "m6.k":"Lingue dell'interfaccia","m6.n":"1 186 chiavi ciascuna, parità imposta da un test",
     "m7.k":"Registro delle decisioni","m7.n":"righe di ragionamento scritto, misure comprese",
 
     "s4.title":"Architettura",
@@ -912,7 +920,7 @@ const I18N = {
     "p3.t":"Una regola, ripetuta dove va risposta",
     "p3.b":"La stessa regola di visibilità esiste in SQL, in JPQL e in Java — ciascuna risponde alla medesima domanda in un punto diverso — con la convenzione permanente che una differenza fra le copie è un difetto in una di esse, non una sfumatura.",
     "p4.t":"Il ragionamento è messo per iscritto, inversioni comprese",
-    "p4.b":"9 457 righe di registro decisionale: che cosa è stato misurato, che cosa è stato scelto — e quali decisioni sono state poi rovesciate perché il vincolo che le giustificava non valeva più.",
+    "p4.b":"9 622 righe di registro decisionale: che cosa è stato misurato, che cosa è stato scelto — e quali decisioni sono state poi rovesciate perché il vincolo che le giustificava non valeva più.",
 
     "foot.note":"Il codice sorgente è in un repository privato. Una presentazione dettagliata del sistema — architettura, catena di recupero, contabilità dei costi — è disponibile su richiesta.",
     "foot.updated":"Aggiornato: settembre 2026"
@@ -925,7 +933,7 @@ const I18N = {
     "hero.caption":"The retrieval page, which explains the rest: a question, the passages an answer would be built from, and their similarity scores. The same view is Fig. 9 in the tour below.",
     "fact.role.k":"Role","fact.role.v":"Sole architect and developer",
     "fact.period.k":"Period","fact.period.v":"Since August 2026",
-    "fact.scale.k":"Scale","fact.scale.v":"93,592 lines, 1,417 tests",
+    "fact.scale.k":"Scale","fact.scale.v":"96,307 lines, 1,430 tests",
     "fact.state.k":"State","fact.state.v":"In daily operation",
 
     "s1.title":"What it does",
@@ -952,7 +960,7 @@ const I18N = {
     "fig.voice":"The voice page. Recognition and speech both happen in the browser; the server never sees audio, only text — the boundary that lets the engine be replaced without touching the schema, the service or the UI.",
     "s6.lead":"Captures of a demo instance stood up for the purpose: the same application, the same migrations, a second schema filled with invented data. Every person, address and document in it is made up, and the mail domains are the ones RFC 2606 reserves. Nothing is covered up, because nothing belongs to anyone. Fig. 11 is the single exception — see its caption. The images change with the language, top right.",
     "fig.brain":"A question typed in English over a corpus of German and Italian documents. Retrieval alone is shown: this instance holds no API key, so no model is called. The booking confirmation comes back at 0.651 and the ticket at 0.523, out of 20 sources searched.",
-    "fig.usage":"The one figure taken from the real instance, deliberately: 669 calls, 1,554,093 tokens and $3.2715 are measured amounts. Invented numbers here would be exactly the kind of evidence a page like this should not offer. Broken down by feature, with a remaining budget computed from the rows themselves.",
+    "fig.usage":"The one figure taken from the real instance, deliberately: 697 calls, 1,641,954 tokens and $3.4143 are measured amounts. Invented numbers here would be exactly the kind of evidence a page like this should not offer. Broken down by feature, with a remaining budget computed from the rows themselves.",
     "fig.keys":"The API key is a per-user column, AES-GCM encrypted and never sent back to the browser: the field states that a key is stored and stays blank. Saving it blank means \"keep the one you have\".",
     "fig.tables":"Every table sorts and filters from its own head and pages at 25 rows — all of it derived in the browser, because no list endpoint pages and the rows are therefore already there.",
     "fig.plan":"A category's plan: bars are dragged to reschedule, arrows carry the dependencies, and whatever waits on a task is pushed along with it — but never pulled earlier.",
@@ -960,6 +968,7 @@ const I18N = {
     "fig.contacts":"The person catalogue: one row per human rather than per channel, with the address and the Telegram account side by side. Rows appear by themselves out of received mail and out of chats. The \"aliases\" column records what somebody is actually called — it is what lets a spoken nickname reach the right person.",
     "fig.users":"Accounts and roles. The telling part is what is missing on your own row: no overflow menu. An administrator can neither disable their own account nor reset its password — the application ships with a single administrator, and anyone who locks themselves out cannot get back in from inside.",
     "fig.settings":"The Telegram token lives encrypted in the database rather than in a file, so the person responsible for the application can rotate it — in force at the next poll, fifteen seconds later, with nothing restarted. It is never handed back: the field only reports whether one is stored. In this instance none is, which is why nothing polls.",
+    "fig.help":"The manual, one chapter per menu entry. Closed, the list of titles is the table of contents — which is what removes the jump links, the anchors and the scroll position they would have to restore. Two chapters standing open at once is the point rather than an accident: the group is deliberately not exclusive, because the first thing anybody does here is compare two chapters. Eighteen of them, because this account is an administrator — a reader who cannot open a screen does not get its chapter either.",
     "s2.title":"AI engineering",
     "s2.lead":"What makes this worth citing is not the features but the decisions underneath them — each taken against a measurement, and each written down together with the measurement that produced it.",
 
@@ -996,11 +1005,11 @@ const I18N = {
     "s3.lead":"Counted in the repository on the day this page was written.",
     "tbl.item":"Item","tbl.value":"Value","tbl.note":"Note",
     "m1.k":"Lines of code","m1.n":"Java, TypeScript, SQL, SCSS, Python",
-    "m2.k":"Automated tests","m2.n":"1,064 back-end test methods, 353 front-end specs",
+    "m2.k":"Automated tests","m2.n":"1,064 back-end test methods, 366 front-end specs",
     "m3.k":"Services","m3.n":"plus 18 REST controllers and 51 entities",
     "m4.k":"Database migrations","m4.n":"Flyway; the schema is never altered by the ORM",
     "m5.k":"AI operations","m5.n":"each priced and counted separately",
-    "m6.k":"Interface languages","m6.n":"1,138 keys each, parity enforced by a test",
+    "m6.k":"Interface languages","m6.n":"1,186 keys each, parity enforced by a test",
     "m7.k":"Decision record","m7.n":"lines of written reasoning, measurements included",
 
     "s4.title":"Architecture",
@@ -1023,14 +1032,144 @@ const I18N = {
     "p3.t":"One rule, restated where it has to be answered",
     "p3.b":"The same visibility rule exists in SQL, in JPQL and in Java — each answering the same question in a different place — under a standing convention that a difference between the copies is a bug in one of them rather than a nuance.",
     "p4.t":"Reasoning is written down, reversals included",
-    "p4.b":"9,457 lines of decision record: what was measured, what was chosen — and which decisions were later reversed because the constraint that justified them had expired.",
+    "p4.b":"9,622 lines of decision record: what was measured, what was chosen — and which decisions were later reversed because the constraint that justified them had expired.",
 
     "foot.note":"The source lives in a private repository. A walkthrough of the system — architecture, retrieval pipeline, cost accounting — is available on request.",
     "foot.updated":"Updated: September 2026"
+  },
+
+  ro: {
+    "hero.eyebrow":"Sistem personal de IA · dezvoltat de unul singur · folosit în fiecare zi",
+    "hero.deck":"Un al doilea creier găzduit pe cont propriu. Îmi citește corespondența, scanările și mesajele vocale, le așază pe toate sub categoria potrivită și răspunde la întrebări despre tot ce a strâns — în cinci limbi, cu un buget pe care îl <strong>socotește până la a șasea zecimală</strong>.",
+    "hero.label":"Deschidere",
+    "hero.caption":"Pagina de căutare, cea care explică tot restul: o întrebare, fragmentele din care s-ar construi un răspuns și scorurile lor de asemănare. Aceeași imagine apare ca fig. 9 în prezentarea de mai jos.",
+    "fact.role.k":"Rol",
+    "fact.role.v":"Singurul arhitect și programator",
+    "fact.period.k":"Perioadă",
+    "fact.period.v":"Din august 2026",
+    "fact.scale.k":"Dimensiune",
+    "fact.scale.v":"96 307 de linii, 1 430 de teste",
+    "fact.state.k":"Stadiu",
+    "fact.state.v":"În funcționare zilnică",
+
+    "s1.title":"Ce face",
+    "s1.lead":"Cinci suprafețe peste un singur corpus: o aplicație web, un cititor de e-mail, un bot de Telegram, o pagină vocală și un depozit de documente. Tot ce intră prin oricare dintre ele devine căutabil după înțeles.",
+    "cap.brain.l":"Al doilea creier",
+    "cap.brain.t":"Documentele, e-mailurile, atașamentele, conversațiile și mementourile sunt tăiate în fragmente, vectorizate și regăsite după înțeles. Fiecare răspuns vine însoțit de fragmentele din care a fost construit — deci se poate verifica, nu doar sună plauzibil.",
+    "cap.mail.l":"Corespondență care se clasează singură",
+    "cap.mail.t":"Mai multe cutii IMAP sunt citite, rezumate și clasificate de un model care citește și scanările atașate. Un răspuns se scrie dintr-o singură frază de instrucțiune și pleacă abia după ce l-a citit un om.",
+    "cap.bot.l":"Un agent în conversație",
+    "cap.bot.t":"În Telegram: întrebi corpusul, dictezi un mesaj pentru un contact, programezi un memento sau răspunzi la un e-mail răspunzând la notificarea lui. Mesajele vocale sunt transcrise pe mașina însăși.",
+    "cap.read.l":"Citit ce spune o imagine",
+    "cap.read.t":"Scanările și fotografiile sunt citite automat de Tesseract, iar la cerere de modelul vizual al lui Claude. Cititorul care costă bani nu este niciodată cel care pornește de la sine.",
+    "cap.cost.l":"Fiecare apel socotit",
+    "cap.cost.t":"Un rând pentru fiecare apel de model: promptul, răspunsul, patru contoare de jetoane, prețul până la a șasea zecimală și cheia de API care a plătit.",
+    "cap.lang.l":"Cinci limbi, peste tot",
+    "cap.lang.t":"Interfața merge în cinci limbi, iar căutarea le traversează: o întrebare pusă în engleză își găsește răspunsul într-un document în germană — exact la asta servește o căutare după înțeles și nu după cuvânt.",
+
+    "s6.title":"Aplicația",
+    "fig.emails":"Nouă coloane, fiecare cu sortare și filtru în propriul cap de tabel. Categoria fiecărui rând vine de la un model care citește și atașamentele; coloana de lângă este rezumatul lui. Săgețile din stânga deosebesc corespondența primită de cea trimisă.",
+    "fig.docs":"Fișiere încărcate, atașamente de e-mail și fișiere trimise botului într-o singură listă — trei proveniențe cu trei reguli de proprietate diferite, adunate din trei interogări separate. „Text extras” este ceea ce a scos cititorul din fișier, iar coloana spune care cititor a fost.",
+    "fig.telegram":"Istoricul conversațiilor botului, cele mai noi întâi, cu aceleași filtre ca un tabel fără a fi unul. Se văd ambele sensuri: întrebări scrise la care răspunde corpusul, o ciornă de mesaj dictat cu întrebarea ei de confirmare și confirmarea unui memento salvat.",
+    "fig.reminders":"Mementouri create prin mesaj vocal sau în conversație. La ora scadentă, un memento pleacă pe fiecare canal pe care îl are destinatarul — coloana din dreapta arată care au fost folosite de fapt. „Ratat” este un stadiu în sine: aplicația nu rula la momentul acela.",
+    "fig.find":"Căutare literală peste unsprezece tabele, aici după un număr de rezervare. Ce nu este scris acolo literal nu este găsit, și exact asta este promisiunea — ea există pentru că al doilea creier nu poate refuza și, fără un prag de asemănare, întoarce mereu cele mai bune K rezultate.",
+    "fig.voice":"Pagina vocală. Recunoașterea și sinteza rulează amândouă în browser; serverul nu vede niciodată audio, doar text — granița care permite schimbarea motorului de recunoaștere fără a atinge schema, serviciul sau interfața.",
+    "s6.lead":"Capturi de pe o instanță demonstrativă ridicată anume: aceeași aplicație, aceleași migrări, o a doua schemă umplută cu date inventate. Toate persoanele, adresele și documentele sunt născocite, iar domeniile de e-mail sunt cele rezervate de RFC 2606. Nimic nu este acoperit, fiindcă nimic nu aparține nimănui. Singura excepție este fig. 11, vezi legenda ei. Imaginile se schimbă cu limba, sus în dreapta.",
+    "fig.brain":"O întrebare scrisă în engleză despre un corpus de documente în germană și italiană. Este arătată doar căutarea — această instanță nu are cheie de API, deci niciun model nu este apelat. Confirmarea rezervării se întoarce cu 0,651, biletul cu 0,523, ambele din 20 de surse parcurse.",
+    "fig.usage":"Singura imagine din instanța reală, și anume cu bună știință: 697 de apeluri, 1 641 954 de jetoane, 3,4143 $ sunt sume măsurate. Cifre inventate ar fi aici exact felul de dovadă pe care o astfel de pagină nu ar trebui să o aducă. Defalcate pe funcționalitate, cu un buget rămas calculat din rândurile însele.",
+    "fig.keys":"Cheia de API este o coloană pentru fiecare utilizator, cifrată cu AES-GCM și niciodată întoarsă browserului: câmpul anunță că o cheie este păstrată și rămâne gol. A salva gol înseamnă „păstrează-o pe cea existentă”.",
+    "fig.tables":"Fiecare tabel sortează și filtrează din propriul cap și paginează câte 25 — totul derivat în browser, fiindcă nicio rută de listare nu paginează și rândurile sunt oricum deja acolo.",
+    "fig.plan":"Planul unei categorii: barele se trag cu mausul, săgețile duc dependențele, iar ce așteaptă o sarcină este împins împreună cu ea — dar niciodată tras mai în față.",
+    "fig.langs":"Cinci limbi. Steagurile sunt SVG încorporat, fiindcă Windows nu livrează niciun glif de steag: un emoji cu steag apare acolo ca cele două litere ale codului său de țară.",
+    "fig.contacts":"Catalogul de persoane: un rând pentru fiecare om, nu pentru fiecare canal, cu e-mailul și Telegramul unul lângă altul. Rândurile apar de la sine din corespondența primită și din conversații. Coloana „alias” ține minte cum este chemat cineva de fapt — ea este cea care face ca o poreclă rostită să ajungă la persoana potrivită.",
+    "fig.users":"Conturi și roluri. Ce lipsește de pe rândul propriu este partea grăitoare: niciun meniu. Un administrator nu își poate nici dezactiva contul, nici reseta parola — aplicația pornește cu un singur administrator, iar cine se încuie pe dinafară nu mai poate intra pe dinăuntru.",
+    "fig.settings":"Jetonul de Telegram stă cifrat în baza de date și nu într-un fișier, ca să îl poată schimba persoana răspunzătoare de aplicație — efectiv la următoarea interogare, după cincisprezece secunde, fără nicio repornire. Nu este niciodată întors: câmpul spune doar dacă există unul. În această instanță nu există, și de aceea nimic nu interoghează nimic.",
+    "fig.help":"Manualul, un capitol pentru fiecare intrare din meniu. Închisă, lista titlurilor este cuprinsul — ceea ce scutește ancorele, legăturile interne și poziția de derulare care ar trebui refăcută. Faptul că două capitole stau deschise în același timp este ideea, nu întâmplarea: grupul nu este intenționat exclusiv, fiindcă primul lucru pe care îl face oricine aici este să compare două capitole. Optsprezece capitole, pentru că acest cont este administrator — cine nu poate deschide o pagină nu primește nici capitolul ei.",
+    "s2.title":"Inginerie de IA",
+    "s2.lead":"Ce merită o referință la acest proiect nu sunt funcționalitățile, ci deciziile de dedesubt — fiecare luată în fața unei măsurători și fiecare consemnată împreună cu măsurătoarea care a produs-o.",
+
+    "c1.t":"Căutare hibridă, fuzionată după rang",
+    "c1.b":"O căutare vectorială nu găsește un termen rar: un cuvânt scurt și neobișnuit se vectorizează într-un punct generic, iar fragmentele care îl conțin nu ies niciodată la suprafață. Un index <code>tsvector</code> din PostgreSQL răspunde jumătății literale, iar cele două clasamente sunt unite prin <em>reciprocal rank fusion</em> — 1/(k+poziție), k=60 — fiindcă o asemănare cosinus și un <code>ts_rank</code> nu stau pe aceeași scară și nicio normalizare nu le aduce acolo. Literal se caută doar termenii rari: corpusul este întrebat care este frecvența documentară a fiecărui cuvânt din întrebare, iar tot ce trece de 20 % este lăsat deoparte — asta nu cere o listă de cuvinte de umplutură în niciuna din cele cinci limbi.",
+    "c1.m":"Măsurat: particula <em>zumal</em> — negăsită prin vectori la niciun K; după fuziune, cinci fragmente pe pozițiile 1, 3, 5, 7 și 10.",
+
+    "c2.t":"Un fragment nu poate fi mai lung decât ce poate duce un răspuns",
+    "c2.b":"Fragmentarea era limitată în cuvinte, bugetul răspunsului în caractere. Este aceeași decizie în două unități, iar textul nu se preschimbă dintr-una în alta la un curs fix — un URL de urmărire este un singur „cuvânt” de două sute de caractere. Așa că sfârșitul fiecărui fragment lung era tăiat pe drumul spre model, și nimic nu o semnala: căutarea era corectă, citarea reală, iar răspunsul spunea că documentul nu conține ceea ce se afla limpede în el.",
+    "c2.m":"Măsurat: 217 din 233 de fragmente de atașament peste buget, în medie 2 752 de caractere față de 1 200. Data zborului căutată se afla la caracterul 1 395 al fragmentului ei.",
+
+    "c3.t":"Vizibilitatea stă în interogare, niciodată după ea",
+    "c3.b":"Unui model îi pot fi arătate numai fragmentele pe care cel care întreabă are dreptul să le citească — iar acest predicat își are locul în interogarea care face clasamentul: aplicat pe rezultat, întorcea în tăcere două fragmente acolo unde fuseseră cerute douăsprezece. Eșuează închizându-se, prin forma lui și nu printr-o regulă adăugată deasupra: predicatul este o disjuncție după tipul sursei, așa că o sursă pentru care nimeni nu a scris o clauză este de neatins, nu publică.",
+    "c3.m":"Verificat pe baza de date în funcțiune, nu doar pe dubluri care nu execută niciodată SQL-ul: 26 de fragmente pentru un administrator, 4 pentru un utilizator obișnuit — iar o căutare pe cuvinte după un termen care apare numai în corespondența altcuiva nu întoarce nimic din ea.",
+
+    "c4.t":"Doi furnizori, câte un singur loc de apel fiecare",
+    "c4.b":"Claude scrie și judecă, Gemini citește și clasifică. Exact o clasă pentru fiecare furnizor vorbește cu API-ul — asta face ca „fiecare apel este înregistrat” să fie adevărat și nu doar intenționat. Cheia este o coloană cifrată cu AES-GCM pentru fiecare utilizator și nu o proprietate a procesului, iar ea circulă prin semnătură: așa compilatorul întreabă fiecare loc de apel al cui buget cheltuiește. O valoare implicită nu există, cu bună știință.",
+
+    "c5.t":"Local mai întâi, plătit doar la cerere",
+    "c5.b":"Recunoașterea vocală rulează cu faster-whisper (large-v3-turbo, int8, CPU), vectorii cu bge-m3 prin Ollama, recunoașterea textului cu Tesseract prin Apache Tika. Nimic din toate acestea nu părăsește mașina și nimic nu costă nimic. Cititorul vizual al lui Claude este vizibil mai bun pe un tabel sau pe o carte de îmbarcare — și rulează numai la apăsarea unui buton, fiindcă corespondența sosește în valuri și o corectură își republică propriul eveniment.",
+    "c5.m":"Măsurat: Whisper se plătește pe fereastră de 30 de secunde, deci o notă de 5 secunde costă cât una de 26 — de aici limita de cinci minute pentru un mesaj vocal pe care botul îl primește.",
+
+    "c6.t":"Prompturi corectate după măsurători, nu după gust",
+    "c6.b":"Pus să transcrie nume de săli în germană elvețiană, cititorul vizual a întors <em>zwölf</em> și <em>nüdün</em> pentru <em>zwöli</em> și <em>nüüün</em>: germană corectă, cuvinte greșite, și nimic în ieșire nu o recunoștea. Un cuvânt inventat, dar care se poate scrie, este mai rău decât unul vizibil stricat, fiindcă o căutare literală nu nimerește niciunul, iar numai cel stricat se dă de gol. Reformulat — un loc „corectat” este greșeala mai gravă, fiindcă nimeni mai jos nu poate ști că s-a schimbat ceva — lectura s-a întors corectă.",
+    "c6.m":"Al doilea caz: o regulă împotriva citării unor fragmente doar pentru a le respinge s-a ținut peste tot, în afară de întrebările formulate ca o acoperire completă — acolo modelul cita 12 din 12. Numirea explicită a acestor formulări l-a adus la 3–4 din 12, pe trei rulări.",
+
+    "c7.t":"Folosirea uneltelor, și cum arată răspunsul de fapt",
+    "c7.b":"Amândouă modelele răspund cu căutare pe web atunci când sunt chemate pe nume. Un răspuns care a folosit o unealtă nu este un singur bloc de text: primul este modelul care anunță că se duce să caute — răspunsul adevărat este textul de după ultimul bloc de unealtă, lipit la un loc, fiindcă un răspuns documentat cu citări se întinde pe mai multe blocuri. O tură pusă în pauză trebuie trimisă înapoi neschimbată, inclusiv conținutul cifrat al fiecărui rezultat, altfel cererea următoare este respinsă. Iar o căutare eșuată sosește ca HTTP 200 al cărui conținut este un obiect de eroare.",
+
+    "c8.t":"Costul este o coloană în sine",
+    "c8.b":"O căutare pe web se plătește pe cerere și nu pe jeton, așa că registrul de costuri ține o a treia coloană, în loc să plieze suma în costul de ieșire, unde acea coloană ar raporta altceva decât este. Prețurile sunt configurație: un tarif promoțional care mai târziu revine la normal nu are ce căuta scris în cod. Un model care lipsește din lista de prețuri este consemnat cu cost zero și un avertisment — o cifră care lipsește vizibil trimite pe cineva în fișierul de configurație, una plauzibilă, inventată după modelul cel mai apropiat, nu.",
+
+    "s3.title":"Măsurat, nu afirmat",
+    "s3.lead":"Numărat în depozit în ziua în care a fost scrisă această pagină.",
+    "tbl.item":"Poziție",
+    "tbl.value":"Valoare",
+    "tbl.note":"Observație",
+    "m1.k":"Linii de cod",
+    "m1.n":"Java, TypeScript, SQL, SCSS, Python",
+    "m2.k":"Teste automate",
+    "m2.n":"1 064 de metode de test pe backend, 366 de specificații pe frontend",
+    "m3.k":"Servicii",
+    "m3.n":"plus 18 controlere REST și 51 de entități",
+    "m4.k":"Migrări de bază de date",
+    "m4.n":"Flyway; schema nu este niciodată modificată de ORM",
+    "m5.k":"Operații de IA",
+    "m5.n":"fiecare tarifată și numărată separat",
+    "m6.k":"Limbi de interfață",
+    "m6.n":"câte 1 186 de chei, paritate impusă de un test",
+    "m7.k":"Registru de decizii",
+    "m7.n":"linii de raționament scris, măsurători incluse",
+
+    "s4.title":"Arhitectură",
+    "s4.lead":"Un nucleu Spring Boot, o bază de date care este totodată depozitul de vectori, trei modele locale și doi furnizori plătiți. Ce poate rula local rulează local.",
+    "arch.surfaces":"Suprafețe",
+    "arch.core":"Nucleu",
+    "arch.store":"Stocare",
+    "arch.localmodels":"Modele locale",
+    "arch.paidmodels":"Modele plătite",
+    "arch.web":"Web (Angular 21)",
+    "arch.voice":"Voce (Web Speech)",
+    "arch.upload":"Încărcare de documente",
+    "arch.core.node":"Spring Boot 4.1 — 98 de servicii, JWT, reguli de vizibilitate pe fiecare rând",
+    "arch.blob":"Fișiere păstrate în baza de date",
+    "arch.websearch":"Căutarea pe web ca unealtă",
+    "arch.legend.local":"local, gratuit, nu părăsește mașina",
+    "arch.legend.paid":"extern, tarifat la apel",
+
+    "s5.title":"Cum este construit",
+    "s5.lead":"Patru reguli care s-au dovedit aici, fiindcă fiecare a costat o dată scump.",
+    "p1.t":"Schema aparține migrărilor",
+    "p1.b":"<code>ddl-auto=validate</code>: o nepotrivire între o entitate și schema migrată face să eșueze pornirea, în loc să schimbe un tabel în tăcere. 48 de migrări, dintre care niciuna nu este vreodată retușată — Flyway le verifică suma de control.",
+    "p2.t":"Verificat pe baza de date, nu doar pe dubluri",
+    "p2.b":"Suita de teste simulează depozitul de date și de aceea nu poate prinde o greșeală într-o interogare scrisă de mână. Regulile care contează sunt rulate pe schema în funcțiune și numărătorile comparate pentru fiecare cont.",
+    "p3.t":"O regulă, repetată acolo unde trebuie să primească răspuns",
+    "p3.b":"Aceeași regulă de vizibilitate există în SQL, în JPQL și în Java — fiecare răspunzând aceleiași întrebări în alt loc — cu înțelegerea permanentă că o diferență între copii este un defect în una dintre ele, nu o nuanță.",
+    "p4.t":"Raționamentul este scris, răsturnările incluse",
+    "p4.b":"9 622 de linii de registru al deciziilor: ce a fost măsurat, ce a fost ales — și care decizii au fost mai târziu răsturnate, fiindcă constrângerea care le justifica încetase să existe.",
+
+    "foot.note":"Codul sursă se află într-un depozit privat. O prezentare detaliată a sistemului — arhitectură, lanțul de căutare, contabilitatea costurilor — rămâne disponibilă la cerere.",
+    "foot.updated":"Actualizat: septembrie 2026"
   }
 };
 
-const SUPPORTED = ["de","fr","it","en"];
+const SUPPORTED = ["de","fr","it","en","ro"];
 const STORE_KEY = "kia.presentation.lang";
 
 function apply(lang){
